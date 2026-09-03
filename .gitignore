@@ -1,0 +1,4 @@
+# Site dependencies
+node_modules/
+*.log
+*.env*
