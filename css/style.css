@@ -95,6 +95,10 @@ body {
 .command { color: #ffffff; font-weight: bold; }
 .key { color: #61afef; }
 
+/* Pastel colors for logo */
+.pastel-blue { color: #89ddff; }
+.pastel-grey { color: #a0a8c2; }
+
 /* Cards Grid Layout */
 .grid {
     display: grid;
