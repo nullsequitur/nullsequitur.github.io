@@ -181,3 +181,88 @@ footer {
     color: #5c6370;
     font-size: 0.85rem;
 }
+
+/* --- New Terminal & Animation Enhancements --- */
+
+/* Scanline Effect */
+body::after {
+    content: " ";
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(18, 16, 16, 0) 50%,
+        rgba(0, 0, 0, 0.15) 50%
+    );
+    background-size: 100% 4px;
+    z-index: 9999;
+    pointer-events: none;
+}
+
+/* Blinking Cursor */
+.cursor {
+    display: inline-block;
+    color: #98c379;
+    animation: cursor-blink 1s step-end infinite;
+    margin-left: 2px;
+}
+
+@keyframes cursor-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Interactive Commands */
+.clickable-cmd {
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-style: dashed;
+    transition: color 0.2s, text-shadow 0.2s;
+}
+
+.clickable-cmd:hover {
+    color: #61afef;
+    text-shadow: 0 0 8px #61afef;
+}
+
+.cmd-hint {
+    color: #5c6370;
+    font-style: italic;
+}
+
+.cmd-output {
+    margin-bottom: 10px;
+    padding-left: 10px;
+    border-left: 2px solid #282c34;
+}
+
+/* Glow Text */
+.glow-text {
+    color: #ffffff;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+/* Hover Glowing Block */
+.terminal-block {
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.terminal-block:hover {
+    box-shadow: 0 0 20px rgba(97, 175, 239, 0.3);
+    border-color: #61afef;
+}
+
+/* Fade-in Animations for Cards */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
