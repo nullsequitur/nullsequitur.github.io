@@ -16,7 +16,6 @@ export function initTerminal() {
     const terminalInput = document.getElementById('terminal-input');
     const activeCmd = document.getElementById('active-cmd');
     const activeCursor = document.getElementById('active-cursor');
-    const ghostText = document.getElementById('ghost-text');
     const promptPath = document.getElementById('prompt-path');
     const termActive = document.getElementById('term-active');
     
@@ -29,16 +28,6 @@ export function initTerminal() {
         promptPath.textContent = currentPath === '/' ? '~' : '~' + currentPath;
     }
     
-    function updateGhostText() {
-        if (terminalInput.value.length === 0) {
-            ghostText.textContent = 'help';
-            ghostText.style.display = 'inline';
-            ghostText.style.color = '#888';
-        } else {
-            ghostText.style.display = 'none';
-        }
-    }
-
     function openTerminal(e) {
         if (e) e.stopPropagation();
         terminalBlock.classList.remove('closed');
@@ -62,18 +51,7 @@ export function initTerminal() {
         }
     });
 
-    const themeToggleBtn = document.getElementById('theme-toggle');
-    if (themeToggleBtn) {
-        themeToggleBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (!isTerminalOpen) {
-                openTerminal(null);
-            }
-            executeCommand('settings', termContent);
-            updatePromptPath();
-            terminalBody.scrollTop = terminalBody.scrollHeight;
-        });
-    }
+
 
     document.addEventListener('click', (e) => {
         if (isTerminalOpen && !terminalBlock.contains(e.target)) {
@@ -83,7 +61,6 @@ export function initTerminal() {
 
     terminalInput.addEventListener('input', () => {
         activeCmd.textContent = terminalInput.value;
-        updateGhostText();
     });
 
     terminalInput.addEventListener('keydown', (e) => {
@@ -110,7 +87,6 @@ export function initTerminal() {
             }
             terminalInput.value = '';
             activeCmd.textContent = '';
-            updateGhostText();
             terminalBody.scrollTop = terminalBody.scrollHeight;
             return;
         }
@@ -133,7 +109,6 @@ export function initTerminal() {
                 if (matches.length === 1) {
                     terminalInput.value = matches[0] + ' ';
                     activeCmd.textContent = terminalInput.value;
-                    updateGhostText();
                 } else if (matches.length > 1) {
                     printMessageAndPrompt(matches.sort().join('  '), currentInput, termContent);
                     terminalBody.scrollTop = terminalBody.scrollHeight;
@@ -145,7 +120,6 @@ export function initTerminal() {
                     parts[parts.length - 1] = matches[0];
                     terminalInput.value = parts.join(' ');
                     activeCmd.textContent = terminalInput.value;
-                    updateGhostText();
                 } else if (matches.length > 1) {
                     printMessageAndPrompt(matches.sort().join('  '), currentInput, termContent);
                     terminalBody.scrollTop = terminalBody.scrollHeight;
@@ -160,7 +134,6 @@ export function initTerminal() {
                 historyIndex--;
                 terminalInput.value = commandHistory[historyIndex];
                 activeCmd.textContent = terminalInput.value;
-                updateGhostText();
             }
             return;
         }
@@ -171,12 +144,10 @@ export function initTerminal() {
                 historyIndex++;
                 terminalInput.value = commandHistory[historyIndex];
                 activeCmd.textContent = terminalInput.value;
-                updateGhostText();
             } else {
                 historyIndex = commandHistory.length;
                 terminalInput.value = '';
                 activeCmd.textContent = '';
-                updateGhostText();
             }
             return;
         }
@@ -201,7 +172,6 @@ export function initTerminal() {
         if (bootCharIdx < bootCmd.length) {
             terminalInput.value += bootCmd.charAt(bootCharIdx);
             activeCmd.textContent = terminalInput.value;
-            updateGhostText();
             bootCharIdx++;
             setTimeout(typeBootChar, 100);
         } else {
@@ -210,7 +180,6 @@ export function initTerminal() {
                 terminalInput.value = '';
                 activeCmd.textContent = '';
                 updatePromptPath();
-                updateGhostText();
                 terminalInput.disabled = false;
                 terminalBody.scrollTop = terminalBody.scrollHeight;
             }, 200);

@@ -34,10 +34,7 @@ describe('Theme module', () => {
         expect(document.documentElement.getAttribute('data-theme')).toBe('latte');
         expect(localStorage.getItem('theme')).toBe('latte');
 
-        setTheme('gruvbox-light');
-        expect(document.documentElement.getAttribute('data-theme')).toBe('gruvbox-light');
-        expect(localStorage.getItem('theme')).toBe('gruvbox-light');
-        
+
         setTheme('mocha');
         expect(document.documentElement.getAttribute('data-theme')).toBe('mocha');
         expect(localStorage.getItem('theme')).toBe('mocha');

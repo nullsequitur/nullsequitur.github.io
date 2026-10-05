@@ -225,6 +225,9 @@ export function printPromptLine(rawCmd, termContent) {
                           <div class="term-line"><span class="prompt"><span class="pastel-blue">∅</span><span class="pastel-grey">＞</span> </span> <span class="command"></span></div>`;
     newBlock.querySelector('.command').textContent = rawCmd;
     termContent.appendChild(newBlock);
+    if (termContent.parentElement) {
+        termContent.parentElement.scrollTop = termContent.parentElement.scrollHeight;
+    }
 }
 
 export function printMessageAndPrompt(messageStr, currentInput, termContent) {
@@ -237,6 +240,9 @@ export function printMessageAndPrompt(messageStr, currentInput, termContent) {
         p.textContent = messageStr;
         outputBlock.appendChild(p);
         termContent.appendChild(outputBlock);
+        if (termContent.parentElement) {
+            termContent.parentElement.scrollTop = termContent.parentElement.scrollHeight;
+        }
     }
 }
 
@@ -272,5 +278,8 @@ export function executeCommand(rawCmd, termContent) {
 
     if (outputBlock.hasChildNodes()) {
         termContent.appendChild(outputBlock);
+        if (termContent.parentElement) {
+            termContent.parentElement.scrollTop = termContent.parentElement.scrollHeight;
+        }
     }
 }

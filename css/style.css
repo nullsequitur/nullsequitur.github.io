@@ -101,7 +101,10 @@ body {
 .terminal-body {
     padding: 20px;
     font-size: var(--term-font-size);
-    max-height: 1000px;
+    max-height: 500px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
     opacity: 1;
     transition: max-height 0.4s ease, padding 0.4s ease, opacity 0.4s ease;
 }
@@ -117,7 +120,7 @@ body {
     position: absolute;
     z-index: -1;
 }
-.command { color: var(--ansi-white); font-weight: bold; }
+.command { color: var(--color-primary); font-weight: bold; }
 .key { color: var(--ansi-blue); }
 
 /* Pastel colors for logo */
@@ -369,7 +372,7 @@ body.disable-cursor-blink .cursor {
     padding: 5px 0;
 }
 .tui-row.active {
-    color: var(--ansi-red);
+    color: var(--color-text-active);
     font-weight: bold;
 }
 .tui-header {
