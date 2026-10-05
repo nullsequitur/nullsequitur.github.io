@@ -1,49 +1,45 @@
-# nullsequitur Homepage
+# nullsequitur homepage
 
-Personal homepage and portfolio for Lampros Trifyllis. This project features a unique interactive "vi-mode" terminal UI built with vanilla ES6 JavaScript, HTML, and CSS variables.
+An interactive, terminal-based personal portfolio for Lampros Trifyllis, Computational Physicist.
 
-## Architecture
-- **Frontend**: Vanilla HTML5, CSS3 (using CSS variables for theming), and ES6 JavaScript Modules.
-- **Testing**: Jest with JSDOM for unit testing the JavaScript logic.
-- **Containerization**: Nginx Alpine Docker container for fast local development and testing.
-- **CI/CD**: GitHub Actions pipeline that automatically runs Jest tests on every push.
+## Tech Stack
 
-## Local Development Setup
+- **Frontend**: Vanilla HTML5, CSS3 (Catppuccin theme variables), and ES6 JavaScript Modules.
+- **No Bundlers / No Build Step**: Uses native browser ES modules (`<script type="module">`).
+- **Testing**: Jest with JSDOM using native ESM support (`NODE_OPTIONS=--experimental-vm-modules`).
+- **Containerization**: Nginx Alpine container for local development.
+- **CI/CD**: GitHub Actions for automated testing and GitHub Pages deployment.
 
-We use Docker (or Podman) to host the project locally. This spins up an Nginx web server and mounts your local files, meaning any changes you make to the HTML/CSS/JS will automatically reflect in the browser upon refresh without needing to rebuild the container.
+## Running Locally
 
-### Prerequisites
-- [Docker](https://docs.docker.com/get-docker/) or [Podman](https://podman.io/getting-started/installation) installed.
-- Node.js and npm (if you want to run unit tests locally).
-
-### 1. Serve the site locally
-To start the local development server, run:
+You can serve the site locally using Docker or Podman:
 
 ```bash
 docker-compose up -d
 ```
-*(If you use Podman, you can use `podman-compose up -d`)*
+*(or `podman-compose up -d`)*
 
-Once running, open your browser and navigate to:
-**http://localhost:8080**
+Then open your browser at **http://localhost:8080**.
 
-To stop the server:
+To stop the container:
 ```bash
 docker-compose down
 ```
 
-### 2. Running Unit Tests
-We use Jest to ensure the terminal logic and commands work as expected.
+## Running Tests
 
-First, install the dependencies (if you haven't already):
+Unit tests are written with Jest:
+
 ```bash
 npm install
-```
-
-Then, run the test suite:
-```bash
 npm test
 ```
 
+To run with coverage reporting:
+```bash
+npm test -- --coverage
+```
+
 ## Deployment
-The repository is designed to be hosted natively on **GitHub Pages**. Because the project uses native ES6 modules (`<script type="module">`), no bundler or build step is required. GitHub Pages serves the raw files directly.
+
+The site deploys automatically to GitHub Pages via `.github/workflows/deploy.yml` on pushes to the `main` branch.
