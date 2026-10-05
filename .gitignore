@@ -1,7 +1,18 @@
 # Site dependencies
 node_modules/
+
+# Test coverage
+coverage/
+
+# Logs and environment
 *.log
 *.env*
+
+# Agent configurations and scratch directories
 .agents/
-node_modules/
-coverage/
+.gemini/
+!.gemini/rules.md
+
+# OS-specific files
+.DS_Store
+Thumbs.db
