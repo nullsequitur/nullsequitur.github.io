@@ -1,3 +1,5 @@
+import { availableCommands, executeCommand } from './commands.js';
+
 document.addEventListener('DOMContentLoaded', () => {
     const terminalBlock = document.getElementById('terminal-block');
     const terminalHeader = document.getElementById('terminal-header');
@@ -11,8 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let commandHistory = [];
     let historyIndex = -1;
     
-    const availableCommands = ['whoami', 'skills', 'clear', 'help'];
-
     function updateGhostText() {
         if (currentInput.length === 0) {
             ghostText.style.display = 'inline';
@@ -37,7 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
     terminalHeader.addEventListener('click', openTerminal);
 
     document.addEventListener('click', (e) => {
-        // If clicking outside terminal block, close it
         if (isTerminalOpen && !terminalBlock.contains(e.target)) {
             closeTerminal();
         }
@@ -45,8 +44,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.addEventListener('keydown', (e) => {
         if (!isTerminalOpen) return;
-        
-        // Ignore if modifier keys are pressed
         if (e.ctrlKey || e.metaKey || e.altKey) return;
         
         if (e.key === 'Escape') {
@@ -55,7 +52,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Prevent default page scrolling when pressing space or arrows
         if ([' ', 'Spacebar', 'ArrowUp', 'ArrowDown'].includes(e.key) || e.key === 'Tab') {
             e.preventDefault();
         }
@@ -64,9 +60,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (currentInput.trim() !== '') {
                 commandHistory.push(currentInput.trim());
                 historyIndex = commandHistory.length;
-                executeCommand(currentInput.trim());
+                executeCommand(currentInput.trim(), termContent);
             } else {
-                executeCommand('');
+                executeCommand('', termContent);
             }
             currentInput = '';
             activeCmd.textContent = '';
@@ -123,53 +119,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    function executeCommand(cmd) {
-        if (cmd === 'clear') {
-            termContent.innerHTML = '';
-            return;
-        }
-
-        let newBlock = document.createElement('div');
-        newBlock.innerHTML = `<div class="term-line"><span class="prompt"><span class="pastel-blue">∅</span><span class="pastel-grey">＞</span> </span> <span class="command">${cmd}</span></div>`;
-        termContent.appendChild(newBlock);
-
-        if (cmd === '') return;
-
-        let outputBlock = document.createElement('div');
-        outputBlock.className = 'cmd-output';
-        cmd = cmd.toLowerCase();
-
-        if (cmd === 'whoami') {
-            outputBlock.innerHTML = `
-                <p><span class="key">name:</span>  <span class="glow-text">Lampros Trifyllis</span></p>
-                <p><span class="key">role:</span>  Computational Physicist (PhD)</p>
-                <p><span class="key">focus:</span>  Symbolic Calculations, Automation, Linux</p>
-            `;
-        } else if (cmd === 'skills') {
-            outputBlock.innerHTML = `
-                <p><span class="key">languages:</span> Python, Bash, C++, Mathematica</p>
-                <p><span class="key">tools:</span> Git, Docker, LaTeX</p>
-                <p><span class="key">os:</span> Arch Linux, Debian</p>
-            `;
-        } else if (cmd === 'help') {
-            outputBlock.innerHTML = `
-                <p>Available commands: <span class="glow-text">whoami</span>, <span class="glow-text">skills</span>, <span class="glow-text">clear</span>, <span class="glow-text">help</span></p>
-            `;
-        } else {
-            outputBlock.innerHTML = `<p>Command not recognized. Type "help" to see available commands.</p>`;
-        }
-        termContent.appendChild(outputBlock);
-    }
-
-    // Interactive Commands
     document.body.addEventListener('click', (e) => {
         if (e.target.classList.contains('clickable-cmd')) {
             const cmd = e.target.getAttribute('data-cmd');
-            executeCommand(cmd);
+            executeCommand(cmd, termContent);
         }
     });
 
-    // Intersection Observer for cards
     const cards = document.querySelectorAll('.card');
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
