@@ -101,6 +101,8 @@ export const commandRegistry = {
                 const p = document.createElement('p');
                 p.textContent = `cd: ${path}: No such file or directory`;
                 outputBlock.appendChild(p);
+            } else {
+                document.dispatchEvent(new CustomEvent('cd', { detail: path }));
             }
         }
     },
@@ -168,7 +170,10 @@ export function executeCommand(rawCmd, termContent) {
     }
 
     let newBlock = document.createElement('div');
-    newBlock.innerHTML = `<div class="term-line"><span class="prompt"><span class="pastel-blue">∅</span><span class="pastel-grey">＞</span> </span> <span class="command"></span></div>`;
+    const currentPath = fs.getCurrentDirectory();
+    const pathStr = currentPath === '/' ? '~' : '~' + currentPath;
+    newBlock.innerHTML = `<div class="term-line" style="display: block; color: var(--accent-blue); font-weight: bold;">${pathStr}</div>
+                          <div class="term-line"><span class="prompt"><span class="pastel-blue">∅</span><span class="pastel-grey">＞</span> </span> <span class="command"></span></div>`;
     newBlock.querySelector('.command').textContent = rawCmd;
     termContent.appendChild(newBlock);
 

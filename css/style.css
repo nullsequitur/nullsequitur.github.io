@@ -105,6 +105,16 @@ body {
 }
 
 .prompt { color: var(--term-green); }
+#prompt-path {
+    display: block;
+    color: var(--accent-blue);
+    font-weight: bold;
+}
+#terminal-input {
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+}
 .command { color: #ffffff; font-weight: bold; }
 .key { color: var(--accent-blue); }
 
@@ -280,3 +290,8 @@ body::after {
     color: var(--text-muted);
     font-style: italic;
 }
+
+/* Content Sections */
+.content-section { display: none; }
+.content-section.active { display: block; }
+
