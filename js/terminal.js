@@ -19,7 +19,7 @@ export function initTerminal() {
     const promptPath = document.getElementById('prompt-path');
     const termActive = document.getElementById('term-active');
     
-    let isTerminalOpen = false;
+    let isTerminalOpen = true;
     let commandHistory = [];
     let historyIndex = -1;
 
@@ -32,30 +32,26 @@ export function initTerminal() {
         if (e) e.stopPropagation();
         terminalBlock.classList.remove('closed');
         isTerminalOpen = true;
-        activeCursor.style.animation = 'cursor-blink 1s step-end infinite';
         terminalInput.focus();
     }
 
     function closeTerminal() {
         terminalBlock.classList.add('closed');
         isTerminalOpen = false;
-        activeCursor.style.animation = 'none';
         terminalInput.blur();
     }
 
-    terminalHeader.addEventListener('click', openTerminal);
+    terminalHeader.addEventListener('click', (e) => {
+        if (isTerminalOpen) {
+            closeTerminal();
+        } else {
+            openTerminal(e);
+        }
+    });
     
     terminalBody.addEventListener('click', () => {
         if (isTerminalOpen) {
             terminalInput.focus();
-        }
-    });
-
-
-
-    document.addEventListener('click', (e) => {
-        if (isTerminalOpen && !terminalBlock.contains(e.target)) {
-            closeTerminal();
         }
     });
 
