@@ -4,7 +4,7 @@ export const settingsOptions = ['theme', 'crt', 'cursor', 'fontsize'];
 let savedTerminalHTML = '';
 let terminalContentElement = null;
 let currentTheme = 'mocha';
-let crtMode = 'hard';
+let crtMode = 'subtle';
 let cursorBlinkEnabled = true;
 let currentFontSize = '16px';
 
@@ -15,9 +15,9 @@ export function initSettings(termContent, savedHTML) {
 
     // Load initial state from DOM / LocalStorage
     currentTheme = document.documentElement.getAttribute('data-theme') || localStorage.getItem('theme') || 'mocha';
-    crtMode = document.body.getAttribute('data-crt') || 'hard';
-    cursorBlinkEnabled = !document.querySelector('.prompt')?.classList.contains('disable-cursor-blink');
-    currentFontSize = getComputedStyle(document.body).getPropertyValue('--term-font-size').trim() || '16px';
+    crtMode = document.body.getAttribute('data-crt') || 'subtle';
+    cursorBlinkEnabled = localStorage.getItem('cursorBlink') !== 'off';
+    currentFontSize = localStorage.getItem('fontSize') || '16px';
     
     renderMenu();
 }
@@ -32,7 +32,7 @@ function renderMenu() {
     html += `<div class="tui-row ${currentMenuIndex === 0 ? 'active' : ''}">${currentMenuIndex === 0 ? '> ' : '  '}Theme: ${themeText}</div>`;
     
     const crtModes = {'off': 'Off', 'subtle': 'Subtle', 'hard': 'Hard'};
-    const crtText = crtModes[crtMode] || 'Hard';
+    const crtText = crtModes[crtMode] || 'Subtle';
     html += `<div class="tui-row ${currentMenuIndex === 1 ? 'active' : ''}">${currentMenuIndex === 1 ? '> ' : '  '}CRT Scanlines: ${crtText}</div>`;
     
     html += `<div class="tui-row ${currentMenuIndex === 2 ? 'active' : ''}">${currentMenuIndex === 2 ? '> ' : '  '}Blinking Cursor: ${cursorBlinkEnabled ? 'On' : 'Off'}</div>`;
@@ -100,10 +100,12 @@ function toggleSetting(index) {
         } else {
             document.body.classList.add('disable-cursor-blink');
         }
+        localStorage.setItem('cursorBlink', cursorBlinkEnabled ? 'on' : 'off');
     } else if (opt === 'fontsize') {
         if (currentFontSize === '14px') currentFontSize = '16px';
         else if (currentFontSize === '16px') currentFontSize = '18px';
         else currentFontSize = '14px';
         document.body.style.setProperty('--term-font-size', currentFontSize);
+        localStorage.setItem('fontSize', currentFontSize);
     }
 }

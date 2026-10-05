@@ -99,7 +99,8 @@ body {
 .terminal-body {
     padding: 20px;
     font-size: var(--term-font-size);
-    max-height: 500px;
+    height: 60vh;
+    min-height: 400px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
