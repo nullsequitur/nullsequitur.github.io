@@ -1,5 +1,12 @@
-import { availableCommands, executeCommand } from './commands.js';
+import { availableCommands, executeCommand, printMessageAndPrompt } from './commands.js';
 import * as fs from './filesystem.js';
+import { handleSettingsKeydown } from './settings-tui.js';
+
+export let terminalMode = 'command';
+
+export function setTerminalMode(mode) {
+    terminalMode = mode;
+}
 
 export function initTerminal() {
     const terminalBlock = document.getElementById('terminal-block');
@@ -11,6 +18,7 @@ export function initTerminal() {
     const activeCursor = document.getElementById('active-cursor');
     const ghostText = document.getElementById('ghost-text');
     const promptPath = document.getElementById('prompt-path');
+    const termActive = document.getElementById('term-active');
     
     let isTerminalOpen = false;
     let commandHistory = [];
@@ -23,7 +31,9 @@ export function initTerminal() {
     
     function updateGhostText() {
         if (terminalInput.value.length === 0) {
+            ghostText.textContent = 'help';
             ghostText.style.display = 'inline';
+            ghostText.style.color = '#888';
         } else {
             ghostText.style.display = 'none';
         }
@@ -64,6 +74,17 @@ export function initTerminal() {
     });
 
     terminalInput.addEventListener('keydown', (e) => {
+        if (terminalMode === 'tui') {
+            e.preventDefault();
+            handleSettingsKeydown(e, (savedHTML) => {
+                termContent.innerHTML = savedHTML;
+                termActive.style.display = 'block';
+                terminalBody.scrollTop = terminalBody.scrollHeight;
+                setTerminalMode('command');
+            });
+            return;
+        }
+
         if (e.key === 'Enter') {
             const currentInput = terminalInput.value;
             if (currentInput.trim() !== '') {
@@ -84,7 +105,13 @@ export function initTerminal() {
         if (e.key === 'Tab') {
             e.preventDefault();
             const currentInput = terminalInput.value;
-            if (currentInput.trim() === '') return;
+            
+            if (currentInput === '') {
+                const availableCommandsStr = availableCommands.sort().join('  ');
+                printMessageAndPrompt(availableCommandsStr, currentInput, termContent);
+                terminalBody.scrollTop = terminalBody.scrollHeight;
+                return;
+            }
 
             const parts = currentInput.split(' ');
             
@@ -94,6 +121,9 @@ export function initTerminal() {
                     terminalInput.value = matches[0] + ' ';
                     activeCmd.textContent = terminalInput.value;
                     updateGhostText();
+                } else if (matches.length > 1) {
+                    printMessageAndPrompt(matches.sort().join('  '), currentInput, termContent);
+                    terminalBody.scrollTop = terminalBody.scrollHeight;
                 }
             } else {
                 const partialPath = parts[parts.length - 1];
@@ -103,6 +133,9 @@ export function initTerminal() {
                     terminalInput.value = parts.join(' ');
                     activeCmd.textContent = terminalInput.value;
                     updateGhostText();
+                } else if (matches.length > 1) {
+                    printMessageAndPrompt(matches.sort().join('  '), currentInput, termContent);
+                    terminalBody.scrollTop = terminalBody.scrollHeight;
                 }
             }
             return;

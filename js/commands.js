@@ -1,7 +1,9 @@
 import { siteData } from './content.js';
 import * as fs from './filesystem.js';
+import { setTerminalMode } from './terminal.js';
+import { initSettings } from './settings-tui.js';
 
-export const availableCommands = ['whoami', 'skills', 'clear', 'help', 'ls', 'cd', 'cat', 'pwd', 'contact'];
+export const availableCommands = ['whoami', 'skills', 'clear', 'help', 'ls', 'cd', 'cat', 'pwd', 'contact', 'settings'];
 
 function escapeHTML(str) {
     if (!str) return '';
@@ -11,6 +13,15 @@ function escapeHTML(str) {
 }
 
 export const commandRegistry = {
+    settings: {
+        description: "Open interactive settings menu",
+        execute: (args, termContent, outputBlock) => {
+            const savedHTML = termContent.innerHTML;
+            setTerminalMode('tui');
+            document.getElementById('term-active').style.display = 'none';
+            initSettings(termContent, savedHTML);
+        }
+    },
     whoami: {
         description: "Display user info",
         execute: (args, termContent, outputBlock) => {
@@ -160,9 +171,36 @@ export const commandRegistry = {
     }
 };
 
+export function printPromptLine(rawCmd, termContent) {
+    let newBlock = document.createElement('div');
+    const currentPath = fs.getCurrentDirectory();
+    const pathStr = currentPath === '/' ? '~' : '~' + currentPath;
+    newBlock.innerHTML = `<div class="term-line" style="display: block; color: var(--accent-blue); font-weight: bold;">${pathStr}</div>
+                          <div class="term-line"><span class="prompt"><span class="pastel-blue">∅</span><span class="pastel-grey">＞</span> </span> <span class="command"></span></div>`;
+    newBlock.querySelector('.command').textContent = rawCmd;
+    termContent.appendChild(newBlock);
+}
+
+export function printMessageAndPrompt(messageStr, currentInput, termContent) {
+    printPromptLine(currentInput, termContent);
+    if (messageStr) {
+        let outputBlock = document.createElement('div');
+        outputBlock.className = 'cmd-output';
+        const p = document.createElement('p');
+        p.style.whiteSpace = 'pre-wrap';
+        p.textContent = messageStr;
+        outputBlock.appendChild(p);
+        termContent.appendChild(outputBlock);
+    }
+}
+
 export function executeCommand(rawCmd, termContent) {
     const trimmed = rawCmd.trim();
-    if (!trimmed) return;
+    if (!trimmed) {
+        // empty command, just print prompt
+        printPromptLine('', termContent);
+        return;
+    }
     
     const tokens = trimmed.split(/\s+/);
     const cmdName = tokens[0].toLowerCase();
@@ -173,13 +211,7 @@ export function executeCommand(rawCmd, termContent) {
         return;
     }
 
-    let newBlock = document.createElement('div');
-    const currentPath = fs.getCurrentDirectory();
-    const pathStr = currentPath === '/' ? '~' : '~' + currentPath;
-    newBlock.innerHTML = `<div class="term-line" style="display: block; color: var(--accent-blue); font-weight: bold;">${pathStr}</div>
-                          <div class="term-line"><span class="prompt"><span class="pastel-blue">∅</span><span class="pastel-grey">＞</span> </span> <span class="command"></span></div>`;
-    newBlock.querySelector('.command').textContent = rawCmd;
-    termContent.appendChild(newBlock);
+    printPromptLine(rawCmd, termContent);
 
     let outputBlock = document.createElement('div');
     outputBlock.className = 'cmd-output';
