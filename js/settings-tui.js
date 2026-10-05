@@ -4,7 +4,7 @@ export const settingsOptions = ['theme', 'crt', 'cursor', 'fontsize'];
 let savedTerminalHTML = '';
 let terminalContentElement = null;
 let currentTheme = 'mocha';
-let crtEnabled = true;
+let crtMode = 'hard';
 let cursorBlinkEnabled = true;
 let currentFontSize = '16px';
 
@@ -14,8 +14,8 @@ export function initSettings(termContent, savedHTML) {
     currentMenuIndex = 0;
 
     // Load initial state from DOM / LocalStorage
-    currentTheme = document.body.getAttribute('data-theme') === 'light' ? 'light' : 'mocha';
-    crtEnabled = !document.body.classList.contains('disable-crt');
+    currentTheme = document.documentElement.getAttribute('data-theme') || localStorage.getItem('theme') || 'mocha';
+    crtMode = document.body.getAttribute('data-crt') || 'hard';
     cursorBlinkEnabled = !document.querySelector('.prompt')?.classList.contains('disable-cursor-blink');
     currentFontSize = getComputedStyle(document.body).getPropertyValue('--term-font-size').trim() || '16px';
     
@@ -28,10 +28,12 @@ function renderMenu() {
     let html = `<div class="tui-container">
        <div class="tui-header">--- Settings ---</div>`;
     
-    const themeText = currentTheme === 'mocha' ? 'Catppuccin Mocha' : 'Gruvbox Light';
+    const themeText = currentTheme === 'mocha' ? 'Catppuccin Mocha' : (currentTheme === 'latte' ? 'Catppuccin Latte' : 'Gruvbox Light');
     html += `<div class="tui-row ${currentMenuIndex === 0 ? 'active' : ''}">${currentMenuIndex === 0 ? '> ' : '  '}Theme: ${themeText}</div>`;
     
-    html += `<div class="tui-row ${currentMenuIndex === 1 ? 'active' : ''}">${currentMenuIndex === 1 ? '> ' : '  '}CRT Scanlines: ${crtEnabled ? 'On' : 'Off'}</div>`;
+    const crtModes = {'off': 'Off', 'subtle': 'Subtle', 'hard': 'Hard'};
+    const crtText = crtModes[crtMode] || 'Hard';
+    html += `<div class="tui-row ${currentMenuIndex === 1 ? 'active' : ''}">${currentMenuIndex === 1 ? '> ' : '  '}CRT Scanlines: ${crtText}</div>`;
     
     html += `<div class="tui-row ${currentMenuIndex === 2 ? 'active' : ''}">${currentMenuIndex === 2 ? '> ' : '  '}Blinking Cursor: ${cursorBlinkEnabled ? 'On' : 'Off'}</div>`;
     
@@ -67,16 +69,17 @@ export function handleSettingsKeydown(e, exitTuiCallback) {
 function toggleSetting(index) {
     const opt = settingsOptions[index];
     if (opt === 'theme') {
-        currentTheme = currentTheme === 'mocha' ? 'light' : 'mocha';
-        document.body.setAttribute('data-theme', currentTheme);
+        const themes = ['mocha', 'latte', 'gruvbox-light'];
+        let idx = themes.indexOf(currentTheme);
+        currentTheme = themes[(idx + 1) % themes.length];
+        document.documentElement.setAttribute('data-theme', currentTheme);
         localStorage.setItem('theme', currentTheme);
     } else if (opt === 'crt') {
-        crtEnabled = !crtEnabled;
-        if (crtEnabled) {
-            document.body.classList.remove('disable-crt');
-        } else {
-            document.body.classList.add('disable-crt');
-        }
+        if (crtMode === 'hard') crtMode = 'off';
+        else if (crtMode === 'off') crtMode = 'subtle';
+        else crtMode = 'hard';
+        document.body.setAttribute('data-crt', crtMode);
+        localStorage.setItem('crtMode', crtMode);
     } else if (opt === 'cursor') {
         cursorBlinkEnabled = !cursorBlinkEnabled;
         // Since prompt line isn't rendered during TUI, we just add/remove class to body or rely on terminal re-render
