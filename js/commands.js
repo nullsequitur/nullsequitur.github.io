@@ -96,13 +96,17 @@ export const commandRegistry = {
         description: "Change directory",
         execute: (args, termContent, outputBlock) => {
             const path = args[0] || '/';
-            const success = fs.setCurrentDirectory(path);
-            if (!success) {
-                const p = document.createElement('p');
-                p.textContent = `cd: ${path}: No such file or directory`;
-                outputBlock.appendChild(p);
-            } else {
+            try {
+                fs.setCurrentDirectory(path);
                 document.dispatchEvent(new CustomEvent('cd', { detail: path }));
+            } catch (e) {
+                const p = document.createElement('p');
+                if (fs.isFile(path)) {
+                    p.innerHTML = `cd: ${escapeHTML(path)}: Not a directory<br><span class="cmd-hint">Hint: did you mean '<span class="clickable-cmd" data-cmd="cat ${escapeHTML(path)}">cat ${escapeHTML(path)}</span>'?</span>`;
+                } else {
+                    p.textContent = e.message || `cd: ${path}: No such file or directory`;
+                }
+                outputBlock.appendChild(p);
             }
         }
     },

@@ -95,7 +95,7 @@ describe('Terminal Commands', () => {
         expect(fs.setCurrentDirectory).toHaveBeenCalledWith('/tmp');
         expect(termContent.textContent).not.toContain('No such file or directory');
         
-        fs.setCurrentDirectory.mockReturnValue(false);
+        fs.setCurrentDirectory.mockImplementation(() => { throw new Error('cd: /invalid: No such file or directory'); });
         executeCommand('cd /invalid', termContent);
         expect(termContent.textContent).toContain('cd: /invalid: No such file or directory');
     });
