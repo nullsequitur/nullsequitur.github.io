@@ -14,7 +14,7 @@ export function getCurrentTheme() {
 }
 
 export function setTheme(theme) {
-    const validThemes = ['mocha', 'latte', 'gruvbox-light'];
+    const validThemes = ['mocha', 'latte'];
     if (validThemes.includes(theme)) {
         document.documentElement.setAttribute('data-theme', theme);
         localStorage.setItem('theme', theme);
@@ -48,4 +48,18 @@ if (typeof document !== 'undefined') {
     } else {
         initTheme();
     }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const toggleBtn = document.getElementById('theme-toggle');
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                let current = localStorage.getItem('theme') || 'mocha';
+                let nextTheme = current === 'mocha' ? 'latte' : 'mocha';
+                document.documentElement.setAttribute('data-theme', nextTheme);
+                localStorage.setItem('theme', nextTheme);
+            });
+        }
+    });
 }
+

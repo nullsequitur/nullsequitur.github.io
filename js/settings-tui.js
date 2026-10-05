@@ -28,7 +28,7 @@ function renderMenu() {
     let html = `<div class="tui-container">
        <div class="tui-header">--- Settings ---</div>`;
     
-    const themeText = currentTheme === 'mocha' ? 'Catppuccin Mocha' : (currentTheme === 'latte' ? 'Catppuccin Latte' : 'Gruvbox Light');
+    const themeText = currentTheme === 'mocha' ? 'Catppuccin Mocha' : 'Catppuccin Latte';
     html += `<div class="tui-row ${currentMenuIndex === 0 ? 'active' : ''}">${currentMenuIndex === 0 ? '> ' : '  '}Theme: ${themeText}</div>`;
     
     const crtModes = {'off': 'Off', 'subtle': 'Subtle', 'hard': 'Hard'};
@@ -69,7 +69,7 @@ export function handleSettingsKeydown(e, exitTuiCallback) {
 function toggleSetting(index) {
     const opt = settingsOptions[index];
     if (opt === 'theme') {
-        const themes = ['mocha', 'latte', 'gruvbox-light'];
+        const themes = ['mocha', 'latte'];
         let idx = themes.indexOf(currentTheme);
         currentTheme = themes[(idx + 1) % themes.length];
         document.documentElement.setAttribute('data-theme', currentTheme);
