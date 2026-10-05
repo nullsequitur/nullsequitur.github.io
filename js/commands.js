@@ -3,7 +3,7 @@ import * as fs from './filesystem.js';
 import { setTerminalMode } from './terminal.js';
 import { initSettings } from './settings-tui.js';
 
-export const availableCommands = ['whoami', 'skills', 'clear', 'help', 'ls', 'cd', 'cat', 'pwd', 'contact', 'settings'];
+export const availableCommands = ['whoami', 'skills', 'clear', 'help', 'ls', 'cd', 'cat', 'pwd', 'contact', 'settings', 'fetch'];
 
 function escapeHTML(str) {
     if (!str) return '';
@@ -13,6 +13,52 @@ function escapeHTML(str) {
 }
 
 export const commandRegistry = {
+    fetch: {
+        description: "Fetch system information",
+        execute: (args, termContent, outputBlock) => {
+            const fetchDiv = document.createElement('div');
+            fetchDiv.style.display = 'flex';
+            fetchDiv.style.gap = '2rem';
+            fetchDiv.style.alignItems = 'center';
+            fetchDiv.style.marginBottom = '1rem';
+
+            const asciiArt = `
+      /\\
+     /  \\
+    /  / \\
+   /  /   \\
+  |  /     |
+  | /      |
+   \\      /
+    \\____/
+`;
+            
+            const leftCol = document.createElement('pre');
+            leftCol.style.color = 'var(--accent-blue)';
+            leftCol.style.margin = '0';
+            leftCol.style.lineHeight = '1.2';
+            leftCol.textContent = asciiArt;
+            
+            const rightCol = document.createElement('div');
+            const user = siteData?.user || {};
+            rightCol.innerHTML = `
+                <p><span class="key">User:</span> ${escapeHTML(user.name || 'Unknown')}</p>
+                <p><span class="key">Role:</span> ${escapeHTML(user.role || 'Unknown')}</p>
+                <p><span class="key">Focus:</span> ${escapeHTML(user.focus || 'Unknown')}</p>
+                <p><span class="key">OS:</span> Arch Linux</p>
+                <p><span class="key">Shell:</span> zsh</p>
+            `;
+            
+            fetchDiv.appendChild(leftCol);
+            fetchDiv.appendChild(rightCol);
+            outputBlock.appendChild(fetchDiv);
+
+            const hint = document.createElement('p');
+            hint.style.color = 'gray';
+            hint.textContent = "Type 'help' to see available commands.";
+            outputBlock.appendChild(hint);
+        }
+    },
     settings: {
         description: "Open interactive settings menu",
         execute: (args, termContent, outputBlock) => {

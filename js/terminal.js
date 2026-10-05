@@ -62,6 +62,19 @@ export function initTerminal() {
         }
     });
 
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (!isTerminalOpen) {
+                openTerminal(null);
+            }
+            executeCommand('settings', termContent);
+            updatePromptPath();
+            terminalBody.scrollTop = terminalBody.scrollHeight;
+        });
+    }
+
     document.addEventListener('click', (e) => {
         if (isTerminalOpen && !terminalBlock.contains(e.target)) {
             closeTerminal();
@@ -178,4 +191,32 @@ export function initTerminal() {
     });
     
     updatePromptPath();
+
+    // Boot Sequence
+    terminalInput.disabled = true;
+    const bootCmd = 'fetch';
+    let bootCharIdx = 0;
+
+    function typeBootChar() {
+        if (bootCharIdx < bootCmd.length) {
+            terminalInput.value += bootCmd.charAt(bootCharIdx);
+            activeCmd.textContent = terminalInput.value;
+            updateGhostText();
+            bootCharIdx++;
+            setTimeout(typeBootChar, 100);
+        } else {
+            setTimeout(() => {
+                executeCommand(terminalInput.value, termContent);
+                terminalInput.value = '';
+                activeCmd.textContent = '';
+                updatePromptPath();
+                updateGhostText();
+                terminalInput.disabled = false;
+                terminalBody.scrollTop = terminalBody.scrollHeight;
+            }, 200);
+        }
+    }
+    
+    // Start boot sequence slightly after load or immediately
+    setTimeout(typeBootChar, 100);
 }

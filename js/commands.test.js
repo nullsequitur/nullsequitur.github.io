@@ -46,9 +46,9 @@ describe('Terminal Commands', () => {
     });
 
     test('availableCommands list is correct', () => {
-        const expectedCmds = ['whoami', 'skills', 'clear', 'help', 'ls', 'cd', 'cat', 'pwd', 'contact', 'settings'];
+        const expectedCmds = ['whoami', 'skills', 'clear', 'help', 'ls', 'cd', 'cat', 'pwd', 'contact', 'settings', 'fetch'];
         expect(availableCommands).toEqual(expect.arrayContaining(expectedCmds));
-        expect(availableCommands.length).toBe(10);
+        expect(availableCommands.length).toBe(11);
     });
 
     test('executeCommand renders input safely without evaluating HTML (XSS prevention)', () => {
