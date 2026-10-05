@@ -31,78 +31,103 @@
                 <span class="terminal-title"><span class="pastel-blue">∅</span><span class="pastel-grey">＞</span><span class="pastel-blue" style="margin-left:8px;">Click to open terminal</span></span>
             </div>
             <div class="terminal-body" id="term-body">
+                <input type="text" id="terminal-input" autocomplete="off" spellcheck="false" autofocus>
                 <div id="term-content">
                 </div>
                 <div id="term-active">
+                    <span id="prompt-path" style="display: block; color: var(--accent-blue);">~</span>
                     <span class="prompt"><span class="pastel-blue">∅</span><span class="pastel-grey">＞</span> </span> 
                     <span class="command" id="active-cmd"></span><span class="ghost-text" id="ghost-text">help</span><span class="cursor" id="active-cursor">█</span>
                 </div>
             </div>
         </section>
 
-        <!-- Cards Grid -->
-        <section class="grid">
-            
-            <!-- Research Card -->
-            <div class="card">
-                <div class="card-header">
-                    <span class="path">/research/</span>
-                    <span class="icon">⚛</span>
-                </div>
-                <div class="card-preview">
-                    <!-- Enhanced Feynman diagram with pastel colors -->
-                    <div class="ascii-art" style="color: #89ddff;">
-                      <pre>
+        <!-- Content Sections -->
+        <section id="home-section" class="content-section active">
+            <!-- Cards Grid -->
+            <section class="grid">
+                
+                <!-- Research Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <span class="path">/research/</span>
+                        <span class="icon">⚛</span>
+                    </div>
+                    <div class="card-preview">
+                        <!-- Enhanced Feynman diagram with pastel colors -->
+                        <div class="ascii-art" style="color: #89ddff;">
+                          <pre>
    _____
   /     \
  /  ♥  \
 /_______\
-      </pre>
+          </pre>
+                        </div>
                     </div>
+                    <h3>smeftFR</h3>
+                    <p class="subtitle">HEP Software / Mathematica</p>
+                    <a href="#research" class="btn">[Enter Research Hub]</a>
                 </div>
-                <h3>smeftFR</h3>
-                <p class="subtitle">HEP Software / Mathematica</p>
-                <a href="research/" class="btn">[Enter Research Hub]</a>
-            </div>
 
-            <!-- Linux Card -->
-            <div class="card">
-                <div class="card-header">
-                    <span class="path">/linux/</span>
-                    <span class="icon">🦥</span> <!-- You can replace with an Arch SVG icon later -->
-                </div>
-                <div class="card-preview">
-                    <div class="ascii-art" style="color: #89ffbd;">
-                      <pre>
+                <!-- Linux Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <span class="path">/linux/</span>
+                        <span class="icon">🦥</span> <!-- You can replace with an Arch SVG icon later -->
+                    </div>
+                    <div class="card-preview">
+                        <div class="ascii-art" style="color: #89ffbd;">
+                          <pre>
       .---.
      ( o o )
       > ^ <
     /' ' \_
   (=======)
 .-()------()-.
-                      </pre>
+                          </pre>
+                        </div>
                     </div>
+                    <h3>Arch Ecosystem</h3>
+                    <p class="subtitle">Bash Automation / System Config</p>
+                    <a href="#linux" class="btn">[Enter Linux Hub]</a>
                 </div>
-                <h3>Arch Ecosystem</h3>
-                <p class="subtitle">Bash Automation / System Config</p>
-                <a href="linux/" class="btn">[Enter Linux Hub]</a>
-            </div>
 
-            <!-- Teaching Card -->
-            <div class="card">
-                <div class="card-header">
-                    <span class="path">/teaching/</span>
-                    <span class="icon">📄</span>
+                <!-- Teaching Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <span class="path">/teaching/</span>
+                        <span class="icon">📄</span>
+                    </div>
+                    <div class="card-preview">
+                        <!-- Simple Bloch sphere representation using text/symbols -->
+                        <div class="ascii-art">|ψ⟩ = α|0⟩ + β|1⟩</div>
+                    </div>
+                    <h3>qit-notes</h3>
+                    <p class="subtitle">Quantum Information Material</p>
+                    <a href="#teaching" class="btn">[Enter Notes Hub]</a>
                 </div>
-                <div class="card-preview">
-                    <!-- Simple Bloch sphere representation using text/symbols -->
-                    <div class="ascii-art">|ψ⟩ = α|0⟩ + β|1⟩</div>
-                </div>
-                <h3>qit-notes</h3>
-                <p class="subtitle">Quantum Information Material</p>
-                <a href="teaching/" class="btn">[Enter Notes Hub]</a>
-            </div>
 
+            </section>
+        </section>
+
+        <section id="research-section" class="content-section">
+            <h2>Research</h2>
+        </section>
+
+        <section id="linux-section" class="content-section">
+            <h2>Linux</h2>
+        </section>
+
+        <section id="teaching-section" class="content-section">
+            <h2>Teaching</h2>
+        </section>
+
+        <section id="projects-section" class="content-section">
+            <h2>Projects</h2>
+        </section>
+
+        <section id="about-section" class="content-section">
+            <h2>About</h2>
         </section>
     </main>
 
