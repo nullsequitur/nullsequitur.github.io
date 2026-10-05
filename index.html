@@ -4,10 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lampros Trifyllis | nullsequitur</title>
+    <meta name="description" content="Personal portfolio and interactive terminal of Lampros Trifyllis, Computational Physicist.">
+    <meta name="author" content="Lampros Trifyllis">
+    <meta property="og:title" content="Lampros Trifyllis | nullsequitur">
+    <meta property="og:description" content="Personal portfolio and interactive terminal of Lampros Trifyllis, Computational Physicist.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://nullsequitur.github.io">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>∅</text></svg>">
     <link rel="stylesheet" href="css/theme.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <a href="#home-section" class="skip-link">Skip to main content</a>
 
     <!-- Navigation Header -->
     <header class="navbar">
@@ -16,6 +24,7 @@
             <a href="#about">About</a>
             <a href="#projects">Projects</a>
             <a href="https://github.com/nullsequitur" target="_blank">Source</a>
+            <button id="theme-toggle" class="btn" aria-label="Toggle theme">🌓</button>
         </nav>
     </header>
 
@@ -23,7 +32,7 @@
     <main class="container">
         
         <!-- Terminal Whoami Block -->
-        <section class="terminal-block closed" id="terminal-block">
+        <section class="terminal-block closed" id="terminal-block" role="application" aria-label="Terminal">
             <div class="terminal-header" id="terminal-header" title="Click to open terminal">
                 <span class="dot red"></span>
                 <span class="dot yellow"></span>
@@ -31,8 +40,8 @@
                 <span class="terminal-title"><span class="pastel-blue">∅</span><span class="pastel-grey">＞</span><span class="pastel-blue" style="margin-left:8px;">Click to open terminal</span></span>
             </div>
             <div class="terminal-body" id="term-body">
-                <input type="text" id="terminal-input" autocomplete="off" spellcheck="false" autofocus>
-                <div id="term-content">
+                <input type="text" id="terminal-input" autocomplete="off" spellcheck="false" autofocus aria-label="Terminal input">
+                <div id="term-content" aria-live="polite">
                 </div>
                 <div id="term-active">
                     <span id="prompt-path" style="display: block; color: var(--accent-blue);">~</span>
@@ -135,6 +144,7 @@
         <p class="footer-text">nullsequitur.github.io</p>
     </footer>
 
+    <script type="module" src="js/theme.js"></script>
     <script type="module" src="js/main.js"></script>
 </body>
 </html>
