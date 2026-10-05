@@ -22,41 +22,69 @@ export const commandRegistry = {
             fetchDiv.style.alignItems = 'center';
             fetchDiv.style.marginBottom = '1rem';
 
-            const asciiArt = `
-      /\\
-     /  \\
-    /  / \\
-   /  /   \\
-  |  /     |
-  | /      |
-   \\      /
-    \\____/
-`;
-            
             const leftCol = document.createElement('pre');
             leftCol.style.color = 'var(--color-primary)';
             leftCol.style.margin = '0';
             leftCol.style.lineHeight = '1.2';
-            leftCol.textContent = asciiArt;
             
             const rightCol = document.createElement('div');
             const user = siteData?.user || {};
-            rightCol.innerHTML = `
-                <p><span class="key">User:</span> ${escapeHTML(user.name || 'Unknown')}</p>
-                <p><span class="key">Role:</span> ${escapeHTML(user.role || 'Unknown')}</p>
-                <p><span class="key">Focus:</span> ${escapeHTML(user.focus || 'Unknown')}</p>
-                <p><span class="key">OS:</span> Arch Linux</p>
-                <p><span class="key">Shell:</span> zsh</p>
-            `;
             
             fetchDiv.appendChild(leftCol);
             fetchDiv.appendChild(rightCol);
             outputBlock.appendChild(fetchDiv);
 
-            const hint = document.createElement('p');
-            hint.style.color = 'gray';
-            hint.textContent = "Type 'help' to see available commands.";
-            outputBlock.appendChild(hint);
+            const asciiLines = [
+                "",
+                "      /\\",
+                "     /  \\",
+                "    /  / \\",
+                "   /  /   \\",
+                "  |  /     |",
+                "  | /      |",
+                "   \\      /",
+                "    \\____/",
+                ""
+            ];
+
+            const infoLines = [
+                `<p><span class="key">User:</span> ${escapeHTML(user.name || 'Unknown')}</p>`,
+                `<p><span class="key">Role:</span> ${escapeHTML(user.role || 'Unknown')}</p>`,
+                `<p><span class="key">Focus:</span> ${escapeHTML(user.focus || 'Unknown')}</p>`,
+                `<p><span class="key">OS:</span> Arch Linux</p>`,
+                `<p><span class="key">Shell:</span> zsh</p>`
+            ];
+
+            const maxLines = Math.max(asciiLines.length, infoLines.length);
+            let currentLine = 0;
+
+            const intervalId = setInterval(() => {
+                if (currentLine < maxLines) {
+                    if (currentLine < asciiLines.length) {
+                        leftCol.textContent += (currentLine === 0 ? "" : "\n") + asciiLines[currentLine];
+                    } else {
+                        leftCol.textContent += "\n";
+                    }
+                    
+                    if (currentLine < infoLines.length) {
+                        rightCol.innerHTML += infoLines[currentLine];
+                    }
+                    
+                    if (termContent.parentElement) {
+                        termContent.parentElement.scrollTop = termContent.parentElement.scrollHeight;
+                    }
+                    currentLine++;
+                } else {
+                    clearInterval(intervalId);
+                    const hint = document.createElement('p');
+                    hint.style.color = 'gray';
+                    hint.textContent = "Type 'help' to see available commands.";
+                    outputBlock.appendChild(hint);
+                    if (termContent.parentElement) {
+                        termContent.parentElement.scrollTop = termContent.parentElement.scrollHeight;
+                    }
+                }
+            }, 50);
         }
     },
     settings: {

@@ -73,17 +73,19 @@ export function listDirectory(path) {
 export function getCompletions(currentDir, partialString) {
     let targetDir = currentDir;
     let prefix = partialString;
+    let dirPrefix = '';
     
     const lastSlashIdx = partialString.lastIndexOf('/');
     if (lastSlashIdx !== -1) {
-        const dirPart = partialString.substring(0, lastSlashIdx + 1);
+        dirPrefix = partialString.substring(0, lastSlashIdx + 1);
         prefix = partialString.substring(lastSlashIdx + 1);
-        targetDir = resolvePath(currentDir, dirPart);
+        targetDir = resolvePath(currentDir, dirPrefix);
     }
     
     try {
         const items = listDirectory(targetDir);
-        return items.filter(item => item.startsWith(prefix));
+        const matches = items.filter(item => item.startsWith(prefix));
+        return matches.map(m => dirPrefix + m);
     } catch (e) {
         return [];
     }

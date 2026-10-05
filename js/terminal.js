@@ -113,7 +113,12 @@ export function initTerminal() {
                 const partialPath = parts[parts.length - 1];
                 const matches = fs.getCompletions(fs.getCurrentDirectory(), partialPath);
                 if (matches.length === 1) {
-                    parts[parts.length - 1] = matches[0];
+                    const match = matches[0];
+                    if (fs.isDirectory(match)) {
+                        parts[parts.length - 1] = match + '/';
+                    } else {
+                        parts[parts.length - 1] = match + ' ';
+                    }
                     terminalInput.value = parts.join(' ');
                     activeCmd.textContent = terminalInput.value;
                 } else if (matches.length > 1) {
@@ -169,7 +174,7 @@ export function initTerminal() {
             terminalInput.value += bootCmd.charAt(bootCharIdx);
             activeCmd.textContent = terminalInput.value;
             bootCharIdx++;
-            setTimeout(typeBootChar, 100);
+            setTimeout(typeBootChar, 50 + Math.random() * 100);
         } else {
             setTimeout(() => {
                 executeCommand(terminalInput.value, termContent);
@@ -178,10 +183,10 @@ export function initTerminal() {
                 updatePromptPath();
                 terminalInput.disabled = false;
                 terminalBody.scrollTop = terminalBody.scrollHeight;
-            }, 200);
+            }, 500);
         }
     }
     
     // Start boot sequence slightly after load or immediately
-    setTimeout(typeBootChar, 100);
+    setTimeout(typeBootChar, 1000);
 }
