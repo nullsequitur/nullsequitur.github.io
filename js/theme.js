@@ -27,8 +27,16 @@ export function initTheme() {
         document.documentElement.setAttribute('data-theme', savedTheme);
     }
 
-    const crtMode = localStorage.getItem('crtMode') || 'hard';
+    const crtMode = localStorage.getItem('crtMode') || 'subtle';
     document.body.setAttribute('data-crt', crtMode);
+
+    const cursorState = localStorage.getItem('cursorBlink') || 'on';
+    if (cursorState === 'off') {
+        document.body.classList.add('disable-cursor-blink');
+    }
+
+    const fontSize = localStorage.getItem('fontSize') || '16px';
+    document.body.style.setProperty('--term-font-size', fontSize);
 }
 
 // Automatically apply theme on load and register listener
@@ -39,8 +47,16 @@ if (typeof document !== 'undefined') {
     }
 
     if (document.body) {
-        const crtMode = localStorage.getItem('crtMode') || 'hard';
+        const crtMode = localStorage.getItem('crtMode') || 'subtle';
         document.body.setAttribute('data-crt', crtMode);
+
+        const cursorState = localStorage.getItem('cursorBlink') || 'on';
+        if (cursorState === 'off') {
+            document.body.classList.add('disable-cursor-blink');
+        }
+
+        const fontSize = localStorage.getItem('fontSize') || '16px';
+        document.body.style.setProperty('--term-font-size', fontSize);
     }
 
     if (document.readyState === 'loading') {
@@ -58,6 +74,7 @@ if (typeof document !== 'undefined') {
                 let nextTheme = current === 'mocha' ? 'latte' : 'mocha';
                 document.documentElement.setAttribute('data-theme', nextTheme);
                 localStorage.setItem('theme', nextTheme);
+                document.getElementById('terminal-input')?.focus();
             });
         }
     });
