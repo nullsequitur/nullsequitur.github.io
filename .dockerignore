@@ -1,0 +1,15 @@
+node_modules/
+.git/
+.github/
+*.md
+**/*.md
+package.json
+package-lock.json
+babel.config.cjs
+jest.config.*
+*.test.js
+**/*.test.js
+.gitignore
+.agents/
+coverage/
+.gemini/
