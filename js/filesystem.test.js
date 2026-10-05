@@ -113,6 +113,6 @@ describe('Virtual Filesystem', () => {
     
     test('getCompletions with path prefix', () => {
         const matches = getCompletions('/', 'research/p');
-        expect(matches).toEqual(['papers']);
+        expect(matches).toEqual(['research/papers']);
     });
 });
