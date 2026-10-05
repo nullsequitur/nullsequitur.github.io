@@ -11,6 +11,8 @@ body {
     font-family: 'Courier New', Courier, monospace; /* Keeping it monospaced */
     line-height: 1.6;
     padding-bottom: 60px;
+    --term-font-size: 16px;
+    font-size: var(--term-font-size);
 }
 
 /* Navbar */
@@ -98,7 +100,7 @@ body {
 
 .terminal-body {
     padding: 20px;
-    font-size: 1.05rem;
+    font-size: var(--term-font-size);
     max-height: 1000px;
     opacity: 1;
     transition: max-height 0.4s ease, padding 0.4s ease, opacity 0.4s ease;
@@ -339,3 +341,32 @@ body::after {
 }
 
 
+
+/* Settings TUI */
+body.disable-crt::after {
+    display: none;
+}
+
+.prompt.disable-cursor-blink,
+body.disable-cursor-blink .cursor {
+    animation: none !important;
+}
+
+.tui-container {
+    padding: 10px;
+}
+.tui-row {
+    padding: 5px 0;
+}
+.tui-row.active {
+    color: var(--term-red);
+    font-weight: bold;
+}
+.tui-header {
+    color: var(--accent-blue);
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+.tui-footer {
+    color: var(--text-muted);
+}
