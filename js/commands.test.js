@@ -88,8 +88,8 @@ describe('Terminal Commands', () => {
         const spans = output.querySelectorAll('span');
         expect(spans.length).toBe(2);
         
-        expect(spans[0].className).toBe('file-color');
-        expect(spans[1].className).toBe('dir-color');
+        expect(spans[0].className).toBe('file-name');
+        expect(spans[1].className).toBe('dir-name');
     });
 
     test('cd command changes directory', () => {

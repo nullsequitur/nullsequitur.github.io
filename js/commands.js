@@ -34,7 +34,7 @@ export const commandRegistry = {
 `;
             
             const leftCol = document.createElement('pre');
-            leftCol.style.color = 'var(--accent-blue)';
+            leftCol.style.color = 'var(--color-primary)';
             leftCol.style.margin = '0';
             leftCol.style.lineHeight = '1.2';
             leftCol.textContent = asciiArt;
@@ -132,13 +132,7 @@ export const commandRegistry = {
                     const isDir = fs.isDirectory(fullPath);
                     const span = document.createElement('span');
                     span.textContent = item + (isDir ? '/' : '') + ' ';
-                    span.className = isDir ? 'dir-color' : 'file-color';
-                    if (isDir) {
-                        span.style.color = '#729fcf';
-                        span.style.fontWeight = 'bold';
-                    } else {
-                        span.style.color = '#ffffff';
-                    }
+                    span.className = isDir ? 'dir-name' : 'file-name';
                     p.appendChild(span);
                 });
                 outputBlock.appendChild(p);
@@ -221,7 +215,7 @@ export function printPromptLine(rawCmd, termContent) {
     let newBlock = document.createElement('div');
     const currentPath = fs.getCurrentDirectory();
     const pathStr = currentPath === '/' ? '~' : '~' + currentPath;
-    newBlock.innerHTML = `<div class="term-line" style="display: block; color: var(--accent-blue); font-weight: bold;">${pathStr}</div>
+    newBlock.innerHTML = `<div class="term-line prompt-path">${pathStr}</div>
                           <div class="term-line"><span class="prompt"><span class="pastel-blue">∅</span><span class="pastel-grey">＞</span> </span> <span class="command"></span></div>`;
     newBlock.querySelector('.command').textContent = rawCmd;
     termContent.appendChild(newBlock);
