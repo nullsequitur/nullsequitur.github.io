@@ -57,6 +57,15 @@ body {
     border-radius: 6px;
     margin-bottom: 40px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    overflow: hidden;
+}
+
+.terminal-block.closed .terminal-body {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    opacity: 0;
 }
 
 .terminal-header {
@@ -67,6 +76,7 @@ body {
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     border-bottom: 1px solid #181b22;
+    cursor: pointer;
 }
 
 .dot {
@@ -89,6 +99,9 @@ body {
 .terminal-body {
     padding: 20px;
     font-size: 1.05rem;
+    max-height: 1000px;
+    opacity: 1;
+    transition: max-height 0.4s ease, padding 0.4s ease, opacity 0.4s ease;
 }
 
 .prompt { color: #98c379; }
@@ -246,10 +259,6 @@ body::after {
     text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
 }
 
-/* Hover Glowing Block */
-.terminal-block {
-    transition: box-shadow 0.3s ease, border-color 0.3s ease;
-}
 .terminal-block:hover {
     box-shadow: 0 0 20px rgba(97, 175, 239, 0.3);
     border-color: #61afef;
@@ -265,4 +274,9 @@ body::after {
 .fade-in.visible {
     opacity: 1;
     transform: translateY(0);
+}
+
+.ghost-text {
+    color: #5c6370;
+    font-style: italic;
 }

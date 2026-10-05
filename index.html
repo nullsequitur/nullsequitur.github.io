@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lampros Trifyllis | nullsequitur</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -22,26 +22,19 @@
     <main class="container">
         
         <!-- Terminal Whoami Block -->
-        <section class="terminal-block">
-            <div class="terminal-header">
+        <section class="terminal-block closed" id="terminal-block">
+            <div class="terminal-header" id="terminal-header" title="Click to open terminal">
                 <span class="dot red"></span>
                 <span class="dot yellow"></span>
                 <span class="dot green"></span>
-                <span class="terminal-title"><span class="pastel-blue">∅</span><span class="pastel-grey">＞</span><span class="pastel-blue">null</span><span class="pastel-grey">sequitur</span></span>
+                <span class="terminal-title"><span class="pastel-blue">∅</span><span class="pastel-grey">＞</span><span class="pastel-blue" style="margin-left:8px;">Click to open terminal</span></span>
             </div>
             <div class="terminal-body" id="term-body">
                 <div id="term-content">
-                    <div class="term-line"><span class="prompt"><span class="pastel-blue">∅</span><span class="pastel-grey">＞</span> </span> <span class="command" id="init-cmd"></span><span class="cursor" id="init-cursor">█</span></div>
-                    <div id="init-output" style="display:none;">
-                        <p><span class="key">name:</span>  <span class="glow-text">Lampros Trifyllis</span></p>
-                        <p><span class="key">role:</span>  Computational Physicist (PhD)</p>
-                        <p><span class="key">focus:</span>  Symbolic Calculations, Automation, Linux</p>
-                        <br>
-                        <p class="cmd-hint">Available commands: <span class="clickable-cmd" data-cmd="whoami">whoami</span>, <span class="clickable-cmd" data-cmd="skills">skills</span>, <span class="clickable-cmd" data-cmd="clear">clear</span></p>
-                    </div>
                 </div>
-                <div id="term-active" style="display:none;">
-                    <span class="prompt"><span class="pastel-blue">∅</span><span class="pastel-grey">＞</span> </span> <span class="command" id="active-cmd"></span><span class="cursor" id="active-cursor">█</span>
+                <div id="term-active">
+                    <span class="prompt"><span class="pastel-blue">∅</span><span class="pastel-grey">＞</span> </span> 
+                    <span class="command" id="active-cmd"></span><span class="ghost-text" id="ghost-text">help</span><span class="cursor" id="active-cursor">█</span>
                 </div>
             </div>
         </section>
@@ -107,6 +100,6 @@
         <p class="footer-text">nullsequitur.github.io</p>
     </footer>
 
-    <script src="js/main.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>
