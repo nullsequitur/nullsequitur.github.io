@@ -7,7 +7,8 @@ export function executeCommand(cmd, termContent) {
     }
 
     let newBlock = document.createElement('div');
-    newBlock.innerHTML = `<div class="term-line"><span class="prompt"><span class="pastel-blue">∅</span><span class="pastel-grey">＞</span> </span> <span class="command">${cmd}</span></div>`;
+    newBlock.innerHTML = `<div class="term-line"><span class="prompt"><span class="pastel-blue">∅</span><span class="pastel-grey">＞</span> </span> <span class="command"></span></div>`;
+    newBlock.querySelector('.command').textContent = cmd;
     termContent.appendChild(newBlock);
 
     if (cmd === '') return;
