@@ -2,21 +2,18 @@
  * @jest-environment jsdom
  */
 
-import { availableCommands, executeCommand } from './commands.js';
-import * as fs from './filesystem.js';
-import { siteData } from './content.js';
+import { jest } from '@jest/globals';
 
-// Mock dependencies
-jest.mock('./filesystem.js', () => ({
+const mockFs = {
     getCurrentDirectory: jest.fn(),
     setCurrentDirectory: jest.fn(),
     listDirectory: jest.fn(),
     isDirectory: jest.fn(),
     isFile: jest.fn(),
     getNode: jest.fn()
-}));
+};
 
-jest.mock('./content.js', () => ({
+const mockContent = {
     siteData: {
         user: {
             name: 'Lampros Trifyllis',
@@ -32,7 +29,13 @@ jest.mock('./content.js', () => ({
             os: ['Arch Linux']
         }
     }
-}));
+};
+
+jest.unstable_mockModule('./filesystem.js', () => mockFs);
+jest.unstable_mockModule('./content.js', () => mockContent);
+
+const { availableCommands, executeCommand } = await import('./commands.js');
+const fs = await import('./filesystem.js');
 
 describe('Terminal Commands', () => {
     let termContent;

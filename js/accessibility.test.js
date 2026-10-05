@@ -4,6 +4,9 @@
 
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 describe('Accessibility & Meta Tags (Task 3.2)', () => {
     let htmlContent;
