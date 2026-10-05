@@ -1,0 +1,19 @@
+:root {
+    --bg-color: #1e222a;
+    --navbar-bg: #181b22;
+    --border-color: #282c34;
+    --text-color: #abb2bf;
+    --text-muted: #5c6370;
+    
+    --accent-blue: #61afef;
+    --accent-pastel-blue: #89ddff;
+    --accent-pastel-grey: #a0a8c2;
+    
+    --term-red: #e06c75;
+    --term-yellow: #d19a66;
+    --term-green: #98c379;
+
+    --card-bg: #21252b;
+    --card-border: #2c313c;
+    --card-preview-bg: #181b22;
+}
