@@ -37,9 +37,11 @@ export const siteData = {
       }
     },
     "career": {
-      type: "directory", icon: "💼", title: "Professional Career", subtitle: "LinkedIn / Resume",
+      type: "directory", icon: "💼", title: "Professional Career", subtitle: "Resume & Experience",
       children: {
-        "linkedin": { type: "file", title: "LinkedIn", subtitle: "Lampros Trifyllis", synopsis: "Professional network and career updates.", url: "https://www.linkedin.com/in/lampros-trifyllis-5ab79a413/" }
+        "ai-engineer": { type: "file", title: "AI Engineer", subtitle: "Tech Company", synopsis: "Developing and orchestrating multi-agent architectures, vector embeddings, and Retrieval-Augmented Generation (RAG) pipelines.", url: "#" },
+        "lecturer": { type: "file", title: "Adjunct Lecturer", subtitle: "University of Ioannina (UoI)", synopsis: "Teaching and academic research in Theoretical Physics.", url: "#" },
+        "linkedin": { type: "file", title: "LinkedIn", subtitle: "Lampros Trifyllis", synopsis: "Professional network and complete career timeline.", url: "https://www.linkedin.com/in/lampros-trifyllis-5ab79a413/" }
       }
     }
   }
