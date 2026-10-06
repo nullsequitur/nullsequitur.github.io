@@ -9,6 +9,27 @@ export const siteData = {
         "publications": { type: "file", title: "Publications", subtitle: "InspireHEP Profile", synopsis: "Theoretical physics publications and preprints.", url: "https://inspirehep.net/authors/1674064" }
       }
     },
+    "ai": {
+      type: "directory", icon: "🧠", title: "Artificial Intelligence", subtitle: "Agentic Systems",
+      children: {
+        "agents": { type: "file", title: "Agentic Workflows", subtitle: "Autonomous Systems", synopsis: "Developing and orchestrating multi-agent systems.", url: "#" },
+        "rag": { type: "file", title: "RAG Systems", subtitle: "Retrieval-Augmented Generation", synopsis: "Building robust vector-based retrieval architectures.", url: "#" }
+      }
+    },
+    "linux": {
+      type: "directory", icon: "🐧", title: "Linux Systems", subtitle: "SysAdmin & Dotfiles",
+      children: {
+        "nvimx": { type: "file", title: "Neovim Config", subtitle: "nvimx", synopsis: "Highly customized, Lua-based Neovim configuration.", url: "#" },
+        "docker": { type: "file", title: "Docker Infrastructure", subtitle: "Containers", synopsis: "Containerized environments and deployment pipelines.", url: "#" }
+      }
+    },
+    "teaching": {
+      type: "directory", icon: "📚", title: "Teaching", subtitle: "Academic Resources",
+      children: {
+        "kedima": { type: "file", title: "KEDIMA", subtitle: "Educational Material", synopsis: "Resources and lectures for theoretical physics courses.", url: "#" },
+        "qit-notes": { type: "file", title: "QIT Notes", subtitle: "Quantum Information Theory", synopsis: "Lecture notes and materials for Quantum Information Theory.", url: "#" }
+      }
+    },
     "projects": {
       type: "directory", icon: "💻", title: "Open Source", subtitle: "Software Projects",
       children: {
