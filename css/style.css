@@ -1,0 +1,518 @@
+/* Core Reset & Dark Theme Base */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--color-bg); /* Sleek Slate Dark Mode */
+    color: var(--color-fg);
+    font-family: 'Courier New', Courier, monospace; /* Keeping it monospaced */
+    line-height: 1.6;
+    padding-bottom: 60px;
+    --term-font-size: 16px;
+    font-size: var(--term-font-size);
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.navbar .logo {
+    font-weight: bold;
+    color: var(--ansi-blue); /* Cyan/Blue accent */
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    user-select: none;
+}
+
+.navbar nav a {
+    color: var(--color-fg);
+    text-decoration: none;
+    margin-left: 15px;
+    padding: 8px 16px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background-color: var(--color-bg);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+}
+
+.navbar nav a:hover {
+    color: var(--ansi-white);
+    border-color: var(--ansi-blue);
+    box-shadow: 0 0 10px var(--ansi-blue);
+}
+
+#theme-toggle {
+    margin-left: 15px;
+    padding: 8px 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#theme-toggle:hover {
+    border-color: var(--ansi-blue);
+    box-shadow: 0 0 10px var(--ansi-blue);
+}
+
+/* Main Container */
+.container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* Terminal Component */
+.terminal-block {
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    margin-bottom: 40px;
+    transition: border-color 0.3s ease;
+    overflow: hidden;
+}
+
+.terminal-block.closed .terminal-body {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    opacity: 0;
+}
+
+.terminal-header {
+    background-color: var(--color-card-bg);
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom: 1px solid var(--color-card-bg);
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 8px;
+    display: inline-block;
+}
+.red { background-color: var(--ansi-red); }
+.yellow { background-color: var(--ansi-yellow); }
+.green { background-color: var(--ansi-green); }
+
+.terminal-title {
+    margin-left: 10px;
+    font-size: 0.85rem;
+    color: var(--color-fg-muted);
+}
+
+.terminal-body {
+    padding: 20px;
+    font-size: var(--term-font-size);
+    height: 60vh;
+    min-height: 400px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    opacity: 1;
+    transition: max-height 0.4s ease, padding 0.4s ease, opacity 0.4s ease;
+}
+
+.prompt { color: var(--ansi-green); }
+#prompt-path {
+    display: block;
+    color: var(--ansi-blue);
+    font-weight: bold;
+}
+#terminal-input {
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+}
+.command { color: var(--color-primary); font-weight: bold; }
+.key { color: var(--ansi-blue); }
+
+/* Pastel colors for logo */
+.pastel-blue { color: var(--ansi-cyan); }
+.pastel-grey { color: var(--ansi-black); }
+
+/* Cards Grid Layout */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.card {
+    background-color: var(--color-card-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    border-color: var(--ansi-blue);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    color: var(--color-fg-muted);
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+}
+
+.card-preview {
+    background-color: var(--color-bg);
+    height: 120px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    border: 1px dashed var(--color-border);
+}
+
+.ascii-art {
+    font-size: 1.2rem;
+    color: var(--color-fg);
+    text-align: center;
+}
+
+h3 {
+    color: var(--ansi-white);
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    font-size: 0.85rem;
+    color: var(--color-fg-muted);
+    margin-bottom: 20px;
+}
+
+/* Button Terminal Brackets Style */
+.btn {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    color: var(--ansi-blue);
+    font-weight: bold;
+    padding: 10px;
+    border: 1px solid transparent;
+    transition: color 0.2s;
+}
+
+.btn:hover {
+    color: var(--ansi-white);
+}
+
+/* Footer styling */
+footer {
+    text-align: center;
+    padding: 40px 0;
+    color: var(--color-fg-muted);
+    font-size: 0.85rem;
+}
+
+/* --- New Terminal & Animation Enhancements --- */
+
+/* Scanline Effect */
+body::after {
+    content: " ";
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(
+        to bottom,
+        transparent 50%,
+        var(--color-border) 50%
+    );
+    background-size: 100% 4px;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.7; /* Default to hard */
+}
+
+body[data-crt="hard"]::after {
+    opacity: 0.30;
+}
+
+body[data-crt="subtle"]::after {
+    opacity: 0.15;
+}
+
+body[data-crt="off"]::after {
+    display: none;
+}
+
+/* Blinking Cursor */
+.cursor {
+    display: inline-block;
+    color: var(--color-primary);
+    animation: cursor-blink 1s step-end infinite;
+    margin-left: 2px;
+}
+
+@keyframes cursor-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Interactive Commands */
+.clickable-cmd {
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-style: dashed;
+    transition: color 0.2s;
+}
+
+.clickable-cmd:hover {
+    color: var(--ansi-blue);
+}
+
+.cmd-hint {
+    color: var(--color-fg-muted);
+    font-style: italic;
+}
+
+.cmd-output {
+    margin-bottom: 10px;
+    padding-left: 10px;
+    border-left: 2px solid var(--color-border);
+}
+
+.terminal-block:hover {
+    border-color: var(--ansi-blue);
+    box-shadow: 0 0 10px var(--ansi-blue);
+}
+
+/* Fade-in Animations for Cards */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.ghost-text {
+    color: var(--color-fg-muted);
+    font-style: italic;
+}
+
+/* Content Sections */
+.content-section { display: none; }
+.content-section.active { display: block; }
+
+/* Skip Link (Visually hidden until focused) */
+.skip-link {
+    position: absolute;
+    top: -100px;
+    left: 20px;
+    background-color: var(--color-card-bg);
+    color: var(--ansi-blue);
+    padding: 10px 16px;
+    border: 1px solid var(--ansi-blue);
+    border-radius: 4px;
+    z-index: 10000;
+    text-decoration: none;
+    font-weight: bold;
+    transition: top 0.2s ease;
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+    top: 20px;
+}
+
+/* Focus-visible styles for keyboard navigation */
+:focus-visible {
+    outline: 2px solid var(--ansi-blue);
+    outline-offset: 2px;
+}
+
+#terminal-input:focus-visible {
+    outline: none;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+
+    body::after {
+        display: none !important;
+    }
+}
+
+
+
+/* Settings TUI */
+
+.prompt.disable-cursor-blink,
+body.disable-cursor-blink .cursor {
+    animation: none !important;
+}
+
+.tui-container {
+    padding: 10px;
+}
+.tui-row {
+    padding: 5px 0;
+}
+.tui-row.active {
+    color: var(--color-text-active);
+    font-weight: bold;
+}
+.tui-header {
+    color: var(--ansi-blue);
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+.tui-footer {
+    color: var(--color-fg-muted);
+}
+
+.dir-name {
+    color: var(--color-primary);
+    font-weight: bold;
+}
+
+.file-name {
+    color: var(--color-text);
+}
+
+.prompt-path {
+    display: block;
+    color: var(--color-primary);
+    font-weight: bold;
+}
+
+/* Global Link Styles */
+a {
+    color: var(--ansi-green);
+    text-decoration: none;
+    transition: filter 0.2s ease-in-out;
+}
+
+a:hover {
+    filter: brightness(1.2);
+    text-decoration: none;
+}
+
+/* --- Refactored SPA Viewport (Tab-Replaces-Terminal) --- */
+.main-viewport {
+    position: relative;
+}
+
+.main-viewport > .terminal-block,
+.main-viewport > .content-section {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    visibility: hidden;
+}
+
+.main-viewport > .active {
+    position: relative;
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+}
+
+/* --- Content Section Refactoring (Removed inline styles) --- */
+.file-block {
+    margin-bottom: 1.5rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--color-border);
+}
+.file-title {
+    margin-bottom: 0.2rem;
+}
+.file-subtitle {
+    font-size: 0.8em;
+    color: var(--color-fg-muted);
+    font-weight: normal;
+}
+.file-synopsis {
+    margin-bottom: 0.5rem;
+}
+.file-link {
+    font-size: 0.9em;
+}
+.section-heading {
+    color: var(--color-primary);
+    margin-bottom: 2rem;
+}
+.section-heading-subtitle {
+    font-size: 0.6em;
+    color: var(--color-fg-muted);
+}
+.cd-home-btn {
+    display: inline-block;
+}
+.fetch-container {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+.fetch-ascii {
+    color: var(--color-primary);
+    margin: 0;
+    line-height: 1.2;
+}
+
+/* --- Mobile Media Queries --- */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        padding: 15px;
+        gap: 10px;
+    }
+    .navbar nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+    }
+    .navbar nav a {
+        margin-left: 0;
+    }
+    .terminal-body {
+        height: 50vh;
+        min-height: 300px;
+    }
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}

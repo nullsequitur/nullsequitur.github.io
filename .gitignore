@@ -1,0 +1,32 @@
+# Site dependencies
+node_modules/
+
+# Test coverage
+coverage/
+
+# Logs and environment
+*.log
+*.env*
+
+# Agent configurations
+.agents/
+.gemini/
+AGENTS.md
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+refactor-for-deploy/
+
+# CV and personal documents
+CV/
+
+# Editor configs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Runtime
+*.pid
