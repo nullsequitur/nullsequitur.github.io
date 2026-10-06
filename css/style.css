@@ -146,7 +146,9 @@ body {
 
 /* Pastel colors for logo */
 .pastel-blue { color: var(--ansi-cyan); }
-.pastel-grey { color: var(--ansi-black); }
+.pastel-grey { color: var(--color-fg-muted); }
+
+.monospace-text, .prompt { font-family: 'Fira Code', 'Cascadia Code', Consolas, monospace; }
 
 /* Cards Grid Layout */
 .grid {

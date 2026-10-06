@@ -46,7 +46,7 @@ describe('Accessibility & Meta Tags (Task 3.2)', () => {
             const ogUrl = doc.querySelector('meta[property="og:url"]');
 
             expect(ogTitle).not.toBeNull();
-            expect(ogTitle.getAttribute('content')).toBe('Lampros Trifyllis | nullsequitur');
+            expect(ogTitle.getAttribute('content')).toBe('nullsequitur | Lampros Trifyllis');
 
             expect(ogDesc).not.toBeNull();
             expect(ogDesc.getAttribute('content')).toBe(
