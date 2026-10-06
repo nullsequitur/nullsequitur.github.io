@@ -1,5 +1,7 @@
 # nullsequitur Terminal Portfolio
 
+**Live at:** [https://nullsequitur.github.io/](https://nullsequitur.github.io/)
+
 An interactive, terminal-first personal portfolio built from scratch for Lampros Trifyllis, a Theoretical Physics PhD and AI Engineer.
 
 The site relies exclusively on vanilla web technologies (HTML5, CSS3, ES6 modules) to create a deeply immersive retro-computing experience. It features a custom virtual filesystem, a command registry, dynamic UI rendering, and accessibility tools.

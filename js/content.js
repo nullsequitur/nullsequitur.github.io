@@ -1,5 +1,5 @@
 export const siteData = {
-  user: { name: "Lampros Trifyllis", role: "AI Engineer | Agentic Systems Developer", focus: "Agentic Workflows, RAG, Deterministic AI", email: ['info', 'nullsequitur.com'].join('@'), github: "https://github.com/nullsequitur", linkedin: "https://www.linkedin.com/in/lampros-trifyllis-5ab79a413/" },
+  user: { name: "Lampros Trifyllis", role: "AI Engineer | Agentic Systems Developer", focus: "Agentic Workflows, RAG", email: ['info', 'nullsequitur.com'].join('@'), github: "https://github.com/nullsequitur", linkedin: "https://www.linkedin.com/in/lampros-trifyllis-5ab79a413/" },
   skills: { languages: ["Python", "JavaScript/React", "SQL", "Bash", "C++"], tools: ["Docker", "RAG", "Claude Code", "Antigravity CLI", "pi harness", "Nix", "tmux/nvim"], os: ["Arch Linux", "Debian", "Home Server"] },
   filesystem: {
     "physics": {
