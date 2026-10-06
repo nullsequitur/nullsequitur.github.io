@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lampros Trifyllis | nullsequitur</title>
+    <meta name="description" content="Personal portfolio and interactive terminal of Lampros Trifyllis, AI Engineer | Agentic Systems Developer.">
+    <meta name="author" content="Lampros Trifyllis">
+    <meta property="og:title" content="Lampros Trifyllis | nullsequitur">
+    <meta property="og:description" content="Personal portfolio and interactive terminal of Lampros Trifyllis, AI Engineer | Agentic Systems Developer.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://nullsequitur.com">
+    <meta property="og:image" content="https://nullsequitur.com/og-image.png">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>∅</text></svg>">
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-crt="subtle">
+    <a href="#home-section" class="skip-link">Skip to main content</a>
+
+    <!-- Navigation Header -->
+    <header class="navbar">
+        <h1 class="logo"><a href="#home" style="text-decoration: none;"><span class="pastel-blue">∅</span><span class="pastel-grey">＞</span><span class="pastel-blue">null</span><span class="pastel-grey">sequitur</span></a></h1>
+        <nav>
+            <a href="#home">Terminal</a>
+            <a href="#physics">Physics</a>
+            <a href="#projects">Projects</a>
+            <a href="#career">Career</a>
+            <button id="theme-toggle" class="btn" aria-label="Toggle theme">🌓</button>
+        </nav>
+    </header>
+
+    <!-- Main Container -->
+    <main class="container main-viewport">
+        
+        <!-- Terminal Whoami Block -->
+        <section class="terminal-block active" id="terminal-block" role="application" aria-label="Terminal">
+            <div class="terminal-header" id="terminal-header">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+            </div>
+            <div class="terminal-body" id="term-body">
+                <input type="text" id="terminal-input" autocomplete="off" spellcheck="false" autofocus aria-label="Terminal input">
+                <div id="term-content" aria-live="polite">
+                </div>
+                <div id="term-active">
+                    <span id="prompt-path" style="display: block; color: var(--color-primary);">~</span>
+                    <span class="prompt"><span class="pastel-blue">∅</span><span class="pastel-grey">＞</span> </span> 
+                    <span class="command" id="active-cmd"></span><span class="cursor" id="active-cursor">█</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Content Sections -->
+        <section id="home-section" class="content-section">
+            <!-- Cards Grid -->
+            <section class="grid">
+                <!-- Dynamically populated by render.js -->
+            </section>
+        </section>
+    </main>
+
+    <footer>
+        <p class="footer-text">© 2026 Lampros Trifyllis · <a href="https://github.com/nullsequitur">GitHub</a></p>
+    </footer>
+
+    <script type="module" src="js/theme.js"></script>
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>
