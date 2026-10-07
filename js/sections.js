@@ -11,9 +11,11 @@ export function navigateTo(path) {
     const isRoot = targetPath === '' || targetPath === '/' || targetPath === '~' || targetPath === 'home';
     let dir = targetPath;
     if (isRoot) {
-        dir = '/';
-    } else if (!targetPath.startsWith('/')) {
-        dir = '/' + targetPath;
+        dir = '~';
+    } else if (!targetPath.startsWith('~') && !targetPath.startsWith('/')) {
+        dir = '~/' + targetPath;
+    } else if (targetPath.startsWith('/')) {
+        dir = '~' + targetPath;
     }
 
     try {
@@ -34,7 +36,7 @@ export function navigateTo(path) {
     if (isRoot) {
         if (terminalBlock) terminalBlock.classList.add('active');
     } else {
-        const sectionName = targetPath.replace(/^\//, '');
+        const sectionName = targetPath.replace(/^~\/?|^\//, '');
         const targetSection = document.getElementById(sectionName + '-section');
         if (targetSection) {
             targetSection.classList.add('active');

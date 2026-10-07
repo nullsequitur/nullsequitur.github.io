@@ -16,10 +16,6 @@ AGENTS.md
 # OS-specific files
 .DS_Store
 Thumbs.db
-refactor-for-deploy/
-
-# CV and personal documents
-CV/
 
 # Editor configs
 .vscode/
@@ -30,3 +26,7 @@ CV/
 
 # Runtime
 *.pid
+
+# Graphify
+graphify-out/
+js/graphify-out/

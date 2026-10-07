@@ -4,10 +4,17 @@ import { initSettings } from './settings-tui.js';
 import { Store } from './store.js';
 
 function escapeHTML(str) {
-    if (!str) return '';
-    const div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML;
+    if (typeof str !== 'string') return '';
+    return str.replace(/[&<>"']/g, function(m) {
+        switch (m) {
+            case '&': return '&amp;';
+            case '<': return '&lt;';
+            case '>': return '&gt;';
+            case '"': return '&quot;';
+            case "'": return '&#39;';
+            default: return m;
+        }
+    });
 }
 
 export const commandRegistry = {
@@ -28,7 +35,13 @@ export const commandRegistry = {
             outputBlock.appendChild(fetchDiv);
 
             const asciiLines = [
-                " [ ∅ ] "
+                "       /\\       ",
+                "      /  \\      ",
+                "     /\\   \\     ",
+                "    /      \\    ",
+                "   /   ,,   \\   ",
+                "  /   |  |   \\  ",
+                " /_-''    ''-_\\ "
             ];
 
             const infoLines = [
@@ -36,6 +49,7 @@ export const commandRegistry = {
                 `<p><span class="key">Role:</span> ${escapeHTML(user.role || 'Unknown')}</p>`,
                 `<p><span class="key">Focus:</span> ${escapeHTML(user.focus || 'Unknown')}</p>`,
                 `<p><span class="key">OS:</span> Arch Linux</p>`,
+                `<p><span class="key">Kernel:</span> AI/Systems</p>`,
                 `<p><span class="key">Shell:</span> zsh</p>`
             ];
 
@@ -97,19 +111,32 @@ export const commandRegistry = {
         }
     },
     skills: {
-        description: "List technical skills",
+        description: "List technical skills (flags: --ai, --sys, --academic)",
         execute: (args, termContent, outputBlock) => {
             if (!siteData?.skills) return;
-            const langsDiv = document.createElement('p');
-            langsDiv.innerHTML = `<span class="key">languages:</span> ${escapeHTML((siteData.skills.languages || []).join(', '))}`;
-            const toolsDiv = document.createElement('p');
-            toolsDiv.innerHTML = `<span class="key">tools:</span> ${escapeHTML((siteData.skills.tools || []).join(', '))}`;
-            const osDiv = document.createElement('p');
-            osDiv.innerHTML = `<span class="key">os:</span> ${escapeHTML((siteData.skills.os || []).join(', '))}`;
-            
-            outputBlock.appendChild(langsDiv);
-            outputBlock.appendChild(toolsDiv);
-            outputBlock.appendChild(osDiv);
+            const flag = args[0];
+            const categories = [];
+
+            if (flag === '--ai') {
+                categories.push({ key: 'ai', val: siteData.skills.ai });
+            } else if (flag === '--sys') {
+                categories.push({ key: 'sys', val: siteData.skills.sys });
+            } else if (flag === '--academic') {
+                categories.push({ key: 'academic', val: siteData.skills.academic });
+            } else {
+                categories.push({ key: 'languages', val: siteData.skills.languages });
+                categories.push({ key: 'ai', val: siteData.skills.ai });
+                categories.push({ key: 'sys', val: siteData.skills.sys });
+                categories.push({ key: 'academic', val: siteData.skills.academic });
+            }
+
+            categories.forEach(cat => {
+                if (cat.val && cat.val.length > 0) {
+                    const p = document.createElement('p');
+                    p.innerHTML = `<span class="key">${escapeHTML(cat.key)}:</span> ${escapeHTML(cat.val.join(', '))}`;
+                    outputBlock.appendChild(p);
+                }
+            });
         }
     },
     clear: {
@@ -158,7 +185,7 @@ export const commandRegistry = {
     cd: {
         description: "Change directory",
         execute: (args, termContent, outputBlock) => {
-            const path = args[0] || '/';
+            const path = args[0] || '~';
             try {
                 fs.setCurrentDirectory(path);
                 document.dispatchEvent(new CustomEvent('cd', { detail: path }));
@@ -201,8 +228,7 @@ export const commandRegistry = {
         description: "Print working directory",
         execute: (args, termContent, outputBlock) => {
             const p = document.createElement('p');
-            const path = fs.getCurrentDirectory();
-            p.textContent = path === '/' ? '~' : '~' + path;
+            p.textContent = fs.getCurrentDirectory();
             outputBlock.appendChild(p);
         }
     },
@@ -228,9 +254,8 @@ export const availableCommands = Object.keys(commandRegistry);
 
 export function printPromptLine(rawCmd, termContent) {
     let newBlock = document.createElement('div');
-    const currentPath = fs.getCurrentDirectory();
-    const pathStr = currentPath === '/' ? '~' : '~' + currentPath;
-    newBlock.innerHTML = `<div class="term-line prompt-path">${pathStr}</div>
+    const pathStr = fs.getCurrentDirectory();
+    newBlock.innerHTML = `<div class="term-line prompt-path">${escapeHTML(pathStr)}</div>
                           <div class="term-line"><span class="prompt"><span class="pastel-blue">∅</span><span class="pastel-grey">＞</span> </span> <span class="command"></span></div>`;
     newBlock.querySelector('.command').textContent = rawCmd;
     termContent.appendChild(newBlock);
