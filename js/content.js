@@ -1,47 +1,35 @@
 export const siteData = {
-  user: { name: "Lampros Trifyllis", role: "AI Engineer | Agentic Systems Developer", focus: "Agentic Workflows, RAG", email: ['info', 'nullsequitur.com'].join('@'), github: "https://github.com/nullsequitur", linkedin: "https://www.linkedin.com/in/lampros-trifyllis-5ab79a413/" },
-  skills: { languages: ["Python", "JavaScript/React", "SQL", "Bash", "C++"], tools: ["Docker", "RAG", "Claude Code", "Antigravity CLI", "pi harness", "Nix", "tmux/nvim"], os: ["Arch Linux", "Debian", "Home Server"] },
+  user: { name: "Lampros Trifyllis", role: "AI Engineer | Systems Developer | Theoretical Physicist", focus: "Agentic Workflows, RAG, Formal Verification", email: ['info', 'nullsequitur.com'].join('@'), github: "https://github.com/nullsequitur", linkedin: "https://www.linkedin.com/in/lampros-trifyllis-5ab79a413/" },
+  skills: { 
+    ai: ["RAG Architecture", "Agentic Harnesses", "Vector Embeddings", "LLMs"],
+    sys: ["Docker", "Kubernetes", "Arch Linux", "Git/GitHub", "Bash", "Lua", "Nix"],
+    academic: ["Theoretical Physics", "Wolfram Mathematica", "LaTeX", "Lean4", "Qiskit"],
+    languages: ["Python", "C", "Bash", "Go", "Lua", "SQL", "JavaScript"]
+  },
   filesystem: {
-    "physics": {
-      type: "directory", icon: "⚛", title: "Theoretical Physics", subtitle: "Research / SMEFT",
+    "ai_ml": {
+      type: "directory", icon: "🧠", title: "AI Engineering", subtitle: "Machine Learning & Agents",
       children: {
-        "smeftFR": { type: "file", title: "smeftFR", subtitle: "HEP Software / Mathematica", synopsis: "Automated generator for beyond-Standard-Model effective field theories.", url: "https://github.com/nullsequitur/smeftFR" },
-        "publications": { type: "file", title: "Publications", subtitle: "InspireHEP Profile", synopsis: "Theoretical physics publications and preprints.", url: "https://inspirehep.net/authors/1674064" }
+        "niki_digital": { type: "file", title: "AI Engineer @ NIKI", subtitle: "NIKI Digital Engineering", synopsis: "Harness engineer, RAG architecture, Agentic workflows.", url: "#" },
+        "agents": { type: "file", title: "Agentic Systems", subtitle: "Autonomous Workflows", synopsis: "Developing and orchestrating multi-agent architectures.", url: "#" }
       }
     },
-    "ai": {
-      type: "directory", icon: "🧠", title: "Artificial Intelligence", subtitle: "Agentic Systems",
+    "sys_infra": {
+      type: "directory", icon: "🐧", title: "Systems & Infrastructure", subtitle: "DevOps & Linux",
       children: {
-        "agents": { type: "file", title: "Agentic Workflows", subtitle: "Autonomous Systems", synopsis: "Developing and orchestrating multi-agent systems.", url: "#" },
-        "rag": { type: "file", title: "RAG Systems", subtitle: "Retrieval-Augmented Generation", synopsis: "Building robust vector-based retrieval architectures.", url: "#" }
+        "nvimx": { type: "file", title: "nvimx", subtitle: "Neovim Config", synopsis: "Deep, Lua-based Neovim configuration project.", url: "#" },
+        "archlinux": { type: "file", title: "Archlinux Scripts", subtitle: "Dotfiles", synopsis: "Deep system configuration and automation scripts.", url: "#" },
+        "docker_k8s": { type: "file", title: "Containerization", subtitle: "Docker & K8s", synopsis: "Infrastructure deployment and orchestration.", url: "#" }
       }
     },
-    "linux": {
-      type: "directory", icon: "🐧", title: "Linux Systems", subtitle: "SysAdmin & Dotfiles",
+    "academic": {
+      type: "directory", icon: "📚", title: "Academic & Research", subtitle: "Physics & Teaching",
       children: {
-        "nvimx": { type: "file", title: "Neovim Config", subtitle: "nvimx", synopsis: "Highly customized, Lua-based Neovim configuration.", url: "#" },
-        "docker": { type: "file", title: "Docker Infrastructure", subtitle: "Containers", synopsis: "Containerized environments and deployment pipelines.", url: "#" }
-      }
-    },
-    "teaching": {
-      type: "directory", icon: "📚", title: "Teaching", subtitle: "Academic Resources",
-      children: {
-        "kedima": { type: "file", title: "KEDIMA", subtitle: "Educational Material", synopsis: "Resources and lectures for theoretical physics courses.", url: "#" },
-        "qit-notes": { type: "file", title: "QIT Notes", subtitle: "Quantum Information Theory", synopsis: "Lecture notes and materials for Quantum Information Theory.", url: "#" }
-      }
-    },
-    "projects": {
-      type: "directory", icon: "💻", title: "Open Source", subtitle: "Software Projects",
-      children: {
-        "github": { type: "file", title: "GitHub Profile", subtitle: "nullsequitur", synopsis: "Personal portfolio of open-source projects, dotfiles, and system automation scripts.", url: "https://github.com/nullsequitur" }
-      }
-    },
-    "career": {
-      type: "directory", icon: "💼", title: "Professional Career", subtitle: "Resume & Experience",
-      children: {
-        "ai-engineer": { type: "file", title: "AI Engineer", subtitle: "Tech Company", synopsis: "Developing and orchestrating multi-agent architectures, vector embeddings, and Retrieval-Augmented Generation (RAG) pipelines.", url: "#" },
-        "lecturer": { type: "file", title: "Adjunct Lecturer", subtitle: "University of Ioannina (UoI)", synopsis: "Teaching and academic research in Theoretical Physics.", url: "#" },
-        "linkedin": { type: "file", title: "LinkedIn", subtitle: "Lampros Trifyllis", synopsis: "Professional network and complete career timeline.", url: "https://www.linkedin.com/in/lampros-trifyllis-5ab79a413/" }
+        "uoi_lecturer": { type: "file", title: "Adjunct Lecturer", subtitle: "University of Ioannina (UoI)", synopsis: "Teaching New Technologies (Python, Git, Linux, AI-assisted dev) and QIT.", url: "#" },
+        "kedima": { type: "file", title: "KEDIMA", subtitle: "Center for Teaching", synopsis: "Involvement in the university's center for teaching and learning.", url: "#" },
+        "phd": { type: "file", title: "PhD Theoretical Physics", subtitle: "UoI Research", synopsis: "SMEFT, Mathematica (SmeftFR), Formal Verification.", url: "https://inspirehep.net/authors/1674064" },
+        "qit_notes": { type: "file", title: "QIT Notes", subtitle: "Quantum Info Theory", synopsis: "Project notes for teaching quantum information.", url: "#" },
+        "colab_tech": { type: "file", title: "New Technologies Colab", subtitle: "UoI Project", synopsis: "Colab project for new technologies in natural science education.", url: "#" }
       }
     }
   }

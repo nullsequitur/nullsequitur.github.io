@@ -1,6 +1,6 @@
 export const Store = {
     // Filesystem State
-    currentDirectory: '/',
+    currentDirectory: '~',
 
     // Terminal State
     terminalMode: 'command',
@@ -22,7 +22,7 @@ export const Store = {
 
     // Optional: add a reset method for testing
     reset() {
-        this.currentDirectory = '/';
+        this.currentDirectory = '~';
         this.terminalMode = 'command';
         this.commandHistory = [];
         this.currentTheme = 'mocha';

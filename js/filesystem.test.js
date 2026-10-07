@@ -12,107 +12,107 @@ import {
 describe('Virtual Filesystem', () => {
     beforeEach(() => {
         // Reset current directory before each test
-        setCurrentDirectory('/');
+        setCurrentDirectory('~');
     });
 
     test('getCurrentDirectory returns initial path', () => {
-        expect(getCurrentDirectory()).toBe('/');
+        expect(getCurrentDirectory()).toBe('~');
     });
 
     test('resolvePath resolves absolute paths', () => {
-        expect(resolvePath('/physics', '/linux')).toBe('/linux');
-        expect(resolvePath('/physics', '/')).toBe('/');
+        expect(resolvePath('~/academic', '~/sys_infra')).toBe('~/sys_infra');
+        expect(resolvePath('~/academic', '~')).toBe('~');
     });
 
     test('resolvePath resolves relative paths', () => {
-        expect(resolvePath('/', 'physics')).toBe('/physics');
-        expect(resolvePath('/physics', 'publications')).toBe('/physics/publications');
+        expect(resolvePath('~', 'academic')).toBe('~/academic');
+        expect(resolvePath('~/academic', 'phd')).toBe('~/academic/phd');
     });
 
     test('resolvePath handles . and ..', () => {
-        expect(resolvePath('/physics', '..')).toBe('/');
-        expect(resolvePath('/physics/publications', '..')).toBe('/physics');
-        expect(resolvePath('/physics', '.')).toBe('/physics');
-        expect(resolvePath('/', '..')).toBe('/');
-        expect(resolvePath('/physics/smeftFR', '../../linux')).toBe('/linux');
+        expect(resolvePath('~/academic', '..')).toBe('~');
+        expect(resolvePath('~/academic/phd', '..')).toBe('~/academic');
+        expect(resolvePath('~/academic', '.')).toBe('~/academic');
+        expect(resolvePath('~', '..')).toBe('~');
+        expect(resolvePath('~/academic/phd', '../../sys_infra')).toBe('~/sys_infra');
     });
 
     test('getNode returns root node', () => {
-        const node = getNode('/');
+        const node = getNode('~');
         expect(node).toBeDefined();
         expect(node.type).toBe('directory');
         expect(node.children).toBeDefined();
     });
 
     test('getNode returns existing node', () => {
-        const node = getNode('/physics');
+        const node = getNode('~/academic');
         expect(node).toBeDefined();
         expect(node.type).toBe('directory');
         
-        const fileNode = getNode('/physics/smeftFR');
+        const fileNode = getNode('~/academic/phd');
         expect(fileNode).toBeDefined();
         expect(fileNode.type).toBe('file');
     });
 
     test('getNode returns null for non-existing node', () => {
-        expect(getNode('/nonexistent')).toBeNull();
-        expect(getNode('/physics/nonexistent')).toBeNull();
+        expect(getNode('~/nonexistent')).toBeNull();
+        expect(getNode('~/academic/nonexistent')).toBeNull();
     });
 
     test('isDirectory and isFile work correctly', () => {
-        expect(isDirectory('/')).toBe(true);
-        expect(isDirectory('/physics')).toBe(true);
-        expect(isFile('/physics')).toBe(false);
+        expect(isDirectory('~')).toBe(true);
+        expect(isDirectory('~/academic')).toBe(true);
+        expect(isFile('~/academic')).toBe(false);
         
-        expect(isFile('/physics/smeftFR')).toBe(true);
-        expect(isDirectory('/physics/smeftFR')).toBe(false);
+        expect(isFile('~/academic/phd')).toBe(true);
+        expect(isDirectory('~/academic/phd')).toBe(false);
         
-        expect(isDirectory('/nonexistent')).toBe(false);
-        expect(isFile('/nonexistent')).toBe(false);
+        expect(isDirectory('~/nonexistent')).toBe(false);
+        expect(isFile('~/nonexistent')).toBe(false);
     });
 
     test('listDirectory lists contents of a directory', () => {
-        const contents = listDirectory('/');
-        expect(contents).toContain('physics');
-        expect(contents).toContain('projects');
+        const contents = listDirectory('~');
+        expect(contents).toContain('academic');
+        expect(contents).toContain('sys_infra');
         
-        const physicsContents = listDirectory('/physics');
-        expect(physicsContents).toContain('smeftFR');
-        expect(physicsContents).toContain('publications');
+        const academicContents = listDirectory('~/academic');
+        expect(academicContents).toContain('phd');
+        expect(academicContents).toContain('uoi_lecturer');
     });
 
     test('listDirectory throws on file or nonexistent path', () => {
-        expect(() => listDirectory('/physics/smeftFR')).toThrow();
-        expect(() => listDirectory('/nonexistent')).toThrow();
+        expect(() => listDirectory('~/academic/phd')).toThrow();
+        expect(() => listDirectory('~/nonexistent')).toThrow();
     });
 
     test('setCurrentDirectory updates current dir', () => {
-        expect(setCurrentDirectory('/physics')).toBe(true);
-        expect(getCurrentDirectory()).toBe('/physics');
+        expect(setCurrentDirectory('~/academic')).toBe(true);
+        expect(getCurrentDirectory()).toBe('~/academic');
         
         expect(setCurrentDirectory('..')).toBe(true);
-        expect(getCurrentDirectory()).toBe('/');
+        expect(getCurrentDirectory()).toBe('~');
     });
 
     test('setCurrentDirectory throws on file or nonexistent path', () => {
-        expect(() => setCurrentDirectory('/physics/smeftFR')).toThrow();
-        expect(() => setCurrentDirectory('/nonexistent')).toThrow();
+        expect(() => setCurrentDirectory('~/academic/phd')).toThrow();
+        expect(() => setCurrentDirectory('~/nonexistent')).toThrow();
     });
 
     test('getCompletions returns matches', () => {
-        const matches = getCompletions('/', 'ph');
-        expect(matches).toEqual(['physics']);
+        const matches = getCompletions('~', 'ac');
+        expect(matches).toEqual(['academic']);
         
-        const matches2 = getCompletions('/', 'p');
-        expect(matches2).toEqual(['physics', 'projects']);
+        const matches2 = getCompletions('~', 'a');
+        expect(matches2.sort()).toEqual(['academic', 'ai_ml'].sort());
         
-        setCurrentDirectory('/physics');
-        const matches3 = getCompletions('/physics', 'p');
-        expect(matches3).toEqual(['publications']);
+        setCurrentDirectory('~/academic');
+        const matches3 = getCompletions('~/academic', 'p');
+        expect(matches3).toEqual(['phd']);
     });
     
     test('getCompletions with path prefix', () => {
-        const matches = getCompletions('/', 'physics/p');
-        expect(matches).toEqual(['physics/publications']);
+        const matches = getCompletions('~', 'academic/p');
+        expect(matches).toEqual(['academic/phd']);
     });
 });

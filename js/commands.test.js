@@ -17,16 +17,17 @@ const mockContent = {
     siteData: {
         user: {
             name: 'Lampros Trifyllis',
-            role: 'Computational Physicist (PhD)',
-            focus: 'Symbolic Calculations, Automation, Linux',
+            role: 'AI Engineer | Systems Developer | Theoretical Physicist',
+            focus: 'Agentic Workflows, RAG, Formal Verification',
             email: 'test@example.com',
             github: 'https://github.com/test',
             linkedin: 'https://linkedin.com/in/test'
         },
         skills: {
-            languages: ['Python', 'Bash', 'C++'],
-            tools: ['Git', 'Docker'],
-            os: ['Arch Linux']
+            ai: ['RAG Architecture', 'Agentic Harnesses'],
+            sys: ['Docker', 'Arch Linux'],
+            academic: ['Theoretical Physics', 'LaTeX'],
+            languages: ['Python', 'Bash']
         }
     }
 };
@@ -70,7 +71,28 @@ describe('Terminal Commands', () => {
     test('whoami command displays correct info', () => {
         executeCommand('whoami', termContent);
         expect(termContent.textContent).toContain('Lampros Trifyllis');
-        expect(termContent.textContent).toContain('Computational Physicist');
+        expect(termContent.textContent).toContain('AI Engineer');
+        expect(termContent.textContent).toContain('Theoretical Physicist');
+    });
+
+    test('skills command displays all skills without flags', () => {
+        executeCommand('skills', termContent);
+        expect(termContent.textContent).toContain('languages: Python, Bash');
+        expect(termContent.textContent).toContain('ai: RAG Architecture, Agentic Harnesses');
+        expect(termContent.textContent).toContain('sys: Docker, Arch Linux');
+        expect(termContent.textContent).toContain('academic: Theoretical Physics, LaTeX');
+    });
+
+    test('skills command displays specific category with flags', () => {
+        executeCommand('skills --ai', termContent);
+        expect(termContent.textContent).toContain('ai: RAG Architecture, Agentic Harnesses');
+        expect(termContent.textContent).not.toContain('languages: Python');
+        expect(termContent.textContent).not.toContain('sys: Docker');
+        
+        termContent.innerHTML = '';
+        executeCommand('skills --sys', termContent);
+        expect(termContent.textContent).toContain('sys: Docker, Arch Linux');
+        expect(termContent.textContent).not.toContain('ai:');
     });
 
     test('ls command uses filesystem mock', () => {

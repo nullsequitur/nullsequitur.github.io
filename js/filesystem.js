@@ -5,12 +5,13 @@ export function resolvePath(currentDir, targetPath) {
     if (!targetPath) return currentDir;
     
     let parts;
-    let isAbsolute = targetPath.startsWith('/');
+    let isAbsolute = targetPath.startsWith('~') || targetPath.startsWith('/');
     
     if (isAbsolute) {
-        parts = targetPath.split('/').filter(p => p !== '');
+        parts = targetPath.split('/').filter(p => p !== '' && p !== '~');
     } else {
-        parts = [...currentDir.split('/'), ...targetPath.split('/')].filter(p => p !== '');
+        const curParts = currentDir.split('/').filter(p => p !== '' && p !== '~');
+        parts = [...curParts, ...targetPath.split('/')].filter(p => p !== '');
     }
     
     const resolvedParts = [];
@@ -24,16 +25,16 @@ export function resolvePath(currentDir, targetPath) {
         }
     }
     
-    return '/' + resolvedParts.join('/');
+    return '~' + (resolvedParts.length > 0 ? '/' + resolvedParts.join('/') : '');
 }
 
 export function getNode(path) {
     const resolvedPath = resolvePath(Store.currentDirectory, path);
-    if (resolvedPath === '/') {
+    if (resolvedPath === '~') {
         return { type: 'directory', children: siteData.filesystem };
     }
     
-    const parts = resolvedPath.split('/').filter(p => p !== '');
+    const parts = resolvedPath.split('/').filter(p => p !== '' && p !== '~');
     let current = { type: 'directory', children: siteData.filesystem };
     
     for (const part of parts) {

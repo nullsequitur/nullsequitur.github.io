@@ -17,12 +17,10 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "serve": "npx serve . -l 8080",
-    "lint": "echo 'no linter configured'",
-    "graph": "depcruise js/ --no-config --include-only \"^js\" --output-type mermaid > ARCHITECTURE.md"
+    "lint": "echo 'no linter configured'"
   },
   "devDependencies": {
     "@vitest/coverage-v8": "^2.1.9",
-    "dependency-cruiser": "^18.5.0",
     "jsdom": "^24.1.1",
     "serve": "^14.2.6",
     "vitest": "^2.1.2"
