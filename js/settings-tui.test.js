@@ -107,4 +107,11 @@ describe('Settings TUI Module', () => {
         handleSettingsKeydown(new KeyboardEvent('keydown', { key: 'q' }), exitCb);
         expect(exitCb).toHaveBeenCalledWith('<div>Saved Terminal Output</div>');
     });
+
+    test('initSettings blurs terminal-input to keep mobile keyboard hidden', () => {
+        const input = document.getElementById('terminal-input');
+        input.blur = vi.fn();
+        initSettings(termContent, '<div>Terminal</div>');
+        expect(input.blur).toHaveBeenCalled();
+    });
 });

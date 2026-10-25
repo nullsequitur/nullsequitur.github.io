@@ -46,7 +46,7 @@ export function initTerminal() {
     
     
     terminalBody.addEventListener('click', () => {
-        if (true) {
+        if (Store.terminalMode !== 'tui') {
             setTimeout(() => terminalInput.focus(), 10);
         }
     });

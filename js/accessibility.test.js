@@ -97,6 +97,18 @@ describe('Accessibility & Meta Tags (Task 3.2)', () => {
                 expect(text).toBeTruthy();
             });
         });
+
+        test('footer includes copyright, name, nullsequitur link, and GitHub link', () => {
+            const footer = doc.querySelector('footer');
+            expect(footer).not.toBeNull();
+            expect(footer.textContent).toContain('© 2026 · Lampros Trifyllis · nullsequitur · GitHub');
+            const nsLink = footer.querySelector('a[href="https://nullsequitur.com"]');
+            expect(nsLink).not.toBeNull();
+            expect(nsLink.textContent).toBe('nullsequitur');
+            const ghLink = footer.querySelector('a[href="https://github.com/nullsequitur"]');
+            expect(ghLink).not.toBeNull();
+            expect(ghLink.textContent).toBe('GitHub');
+        });
     });
 
     describe('CSS Styles', () => {

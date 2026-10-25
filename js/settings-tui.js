@@ -30,6 +30,12 @@ export function initSettings(termContent, savedHTML, onExit) {
     currentMenuIndex = 0;
     currentExitCallback = onExit || null;
     
+    // Blur terminal input to avoid popping up mobile keyboard while in settings TUI
+    const terminalInput = document.getElementById('terminal-input');
+    if (terminalInput) {
+        terminalInput.blur();
+    }
+
     Store.initSettings();
     
     renderMenu();
@@ -64,6 +70,7 @@ export function renderMenu() {
     const container = terminalContentElement.querySelector('.tui-container');
     if (container) {
         container.addEventListener('click', (e) => {
+            e.stopPropagation();
             const row = e.target.closest('.tui-row');
             if (!row) return;
             const index = parseInt(row.getAttribute('data-index'), 10);
