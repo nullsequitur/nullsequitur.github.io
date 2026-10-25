@@ -219,7 +219,11 @@ export const commandRegistry = {
             const node = fs.getNode(path);
             if (node) {
                 const p = document.createElement('p');
-                p.innerHTML = `${escapeHTML(node.synopsis || '')}<br><a href="${escapeHTML(node.url || '')}" target="_blank">${escapeHTML(node.url || '')}</a>`;
+                let html = escapeHTML(node.synopsis || '');
+                if (node.url && node.url !== '#') {
+                    html += `<br><a href="${escapeHTML(node.url)}" target="_blank">${escapeHTML(node.url)}</a>`;
+                }
+                p.innerHTML = html;
                 outputBlock.appendChild(p);
             }
         }

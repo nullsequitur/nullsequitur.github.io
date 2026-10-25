@@ -45,4 +45,17 @@ describe('Theme module', () => {
         expect(document.documentElement.hasAttribute('data-theme')).toBe(false);
         expect(localStorage.getItem('theme')).toBeNull();
     });
+
+    test('getCurrentTheme returns mocha by default', () => {
+        expect(getCurrentTheme()).toBe('mocha');
+    });
+
+    test('getCurrentTheme returns saved valid theme from localStorage or document', () => {
+        localStorage.setItem('theme', 'latte');
+        expect(getCurrentTheme()).toBe('latte');
+
+        localStorage.clear();
+        document.documentElement.setAttribute('data-theme', 'latte');
+        expect(getCurrentTheme()).toBe('latte');
+    });
 });

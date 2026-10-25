@@ -4,13 +4,19 @@ export function getSavedTheme() {
 
 export function getCurrentTheme() {
     const saved = localStorage.getItem('theme');
-    if (saved) {
+    if (saved && (saved === 'mocha' || saved === 'latte')) {
         return saved;
     }
-    if (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-        return 'light';
+    if (typeof document !== 'undefined') {
+        const docTheme = document.documentElement.getAttribute('data-theme');
+        if (docTheme && (docTheme === 'mocha' || docTheme === 'latte')) {
+            return docTheme;
+        }
     }
-    return 'dark';
+    if (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+        return 'latte';
+    }
+    return 'mocha';
 }
 
 export function setTheme(theme) {

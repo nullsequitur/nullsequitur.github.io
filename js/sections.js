@@ -8,7 +8,7 @@ export function navigateTo(path) {
     }
     
     // Resolve path using fs
-    const isRoot = targetPath === '' || targetPath === '/' || targetPath === '~' || targetPath === 'home';
+    const isRoot = targetPath === '' || targetPath === '/' || targetPath === '~' || targetPath === 'home' || targetPath === 'home-section';
     let dir = targetPath;
     if (isRoot) {
         dir = '~';
@@ -35,6 +35,8 @@ export function navigateTo(path) {
     // Show the target section or terminal
     if (isRoot) {
         if (terminalBlock) terminalBlock.classList.add('active');
+        const homeSection = document.getElementById('home-section');
+        if (homeSection) homeSection.classList.add('active');
     } else {
         const sectionName = targetPath.replace(/^~\/?|^\//, '');
         const targetSection = document.getElementById(sectionName + '-section');
@@ -43,13 +45,15 @@ export function navigateTo(path) {
         } else {
             // Fallback to home/terminal if section not found
             if (terminalBlock) terminalBlock.classList.add('active');
+            const homeSection = document.getElementById('home-section');
+            if (homeSection) homeSection.classList.add('active');
         }
     }
 }
 
 export function initSections() {
     document.addEventListener('click', (e) => {
-        const link = e.target.closest('nav a, a.btn, .logo a');
+        const link = e.target.closest('nav a, a.btn, .logo a, .skip-link');
         if (!link) return;
         
         const href = link.getAttribute('href');
@@ -58,10 +62,14 @@ export function initSections() {
         if (href.startsWith('#')) {
             e.preventDefault();
             const target = href.substring(1);
-            if (target === 'home') {
+            if (target === 'home' || target === 'home-section') {
                 import('./terminal.js').then(m => m.resetTerminal());
             }
             navigateTo(target);
+            if (target === 'home-section') {
+                const targetEl = document.getElementById('home-section');
+                if (targetEl) targetEl.focus();
+            }
         } else if (href.endsWith('/')) {
             e.preventDefault();
             navigateTo(href.replace(/\/$/, ''));

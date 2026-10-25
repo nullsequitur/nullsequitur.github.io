@@ -139,6 +139,18 @@ describe('Terminal Commands', () => {
         expect(termContent.textContent).toContain('A test file synopsis');
         expect(termContent.querySelector('a').href).toBe('https://example.com/test');
     });
+
+    test('cat command omits anchor tag when url is # or missing', () => {
+        fs.isFile.mockReturnValue(true);
+        fs.getNode.mockReturnValue({
+            synopsis: 'A file without external url',
+            url: '#'
+        });
+        
+        executeCommand('cat /nourl.txt', termContent);
+        expect(termContent.textContent).toContain('A file without external url');
+        expect(termContent.querySelector('a')).toBeNull();
+    });
     
     test('cat errors on directory or non-existent file', () => {
         fs.isFile.mockReturnValue(false);

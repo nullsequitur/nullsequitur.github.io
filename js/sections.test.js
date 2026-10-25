@@ -15,15 +15,24 @@ describe('Sections Navigation', () => {
         vi.clearAllMocks();
     });
 
-    test('navigateTo home path shows terminal', () => {
+    test('navigateTo home path shows terminal and home section cards', () => {
         navigateTo('/');
         expect(document.getElementById('terminal-block').classList.contains('active')).toBe(true);
+        expect(document.getElementById('home-section').classList.contains('active')).toBe(true);
         expect(document.getElementById('ai_ml-section').classList.contains('active')).toBe(false);
     });
 
-    test('navigateTo specific path shows content section', () => {
+    test('navigateTo skip link target home-section activates terminal and home section', () => {
+        navigateTo('#home-section');
+        expect(document.getElementById('terminal-block').classList.contains('active')).toBe(true);
+        expect(document.getElementById('home-section').classList.contains('active')).toBe(true);
+        expect(document.getElementById('ai_ml-section').classList.contains('active')).toBe(false);
+    });
+
+    test('navigateTo specific path shows content section and hides home section', () => {
         navigateTo('/ai_ml');
         expect(document.getElementById('terminal-block').classList.contains('active')).toBe(false);
+        expect(document.getElementById('home-section').classList.contains('active')).toBe(false);
         expect(document.getElementById('ai_ml-section').classList.contains('active')).toBe(true);
     });
 });

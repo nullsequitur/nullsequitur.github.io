@@ -28,6 +28,7 @@ export function initTerminal() {
     const termContent = document.getElementById('term-content');
     const terminalInput = document.getElementById('terminal-input');
     const activeCmd = document.getElementById('active-cmd');
+    const activeCursor = document.getElementById('active-cursor');
     
     const promptPath = document.getElementById('prompt-path');
     const termActive = document.getElementById('term-active');
@@ -37,7 +38,7 @@ export function initTerminal() {
 
     function updatePromptPath() {
         const currentPath = fs.getCurrentDirectory();
-        promptPath.textContent = currentPath === '/' ? '~' : '~' + currentPath;
+        promptPath.textContent = (!currentPath || currentPath === '/') ? '~' : currentPath;
     }
     
     
