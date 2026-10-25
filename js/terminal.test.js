@@ -45,6 +45,7 @@ describe('Terminal Module', () => {
         expect(() => {
             terminalInput.dispatchEvent(new Event('blur'));
         }).not.toThrow();
-        expect(activeCursor.textContent).toBe('□');
+        expect(activeCursor.textContent).toBe('▯');
+        expect(activeCursor.classList.contains('cursor-empty')).toBe(true);
     });
 });

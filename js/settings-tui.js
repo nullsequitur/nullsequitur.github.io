@@ -1,67 +1,113 @@
 import { Store } from './store.js';
 
-export const settingsOptions = ['theme', 'crt', 'cursor', 'fontsize'];
+export const settingsOptions = ['theme', 'crt', 'cursor', 'fontsize', 'return'];
 
 let savedTerminalHTML = '';
 let terminalContentElement = null;
+let currentExitCallback = null;
 export let currentMenuIndex = 0;
 
-export function initSettings(termContent, savedHTML) {
+export function exitSettings() {
+    if (currentExitCallback) {
+        currentExitCallback(savedTerminalHTML);
+    } else {
+        if (terminalContentElement) {
+            terminalContentElement.innerHTML = savedTerminalHTML;
+        }
+        const termActive = document.getElementById('term-active');
+        if (termActive) termActive.style.display = 'block';
+        const terminalBody = document.getElementById('term-body');
+        if (terminalBody) terminalBody.scrollTop = terminalBody.scrollHeight;
+        Store.terminalMode = 'command';
+        const terminalInput = document.getElementById('terminal-input');
+        if (terminalInput) setTimeout(() => terminalInput.focus(), 10);
+    }
+}
+
+export function initSettings(termContent, savedHTML, onExit) {
     terminalContentElement = termContent;
     savedTerminalHTML = savedHTML;
     currentMenuIndex = 0;
+    currentExitCallback = onExit || null;
     
     Store.initSettings();
     
     renderMenu();
 }
 
-function renderMenu() {
+export function renderMenu() {
     if (!terminalContentElement) return;
 
     let html = `<div class="tui-container">
        <div class="tui-header">--- Settings ---</div>`;
     
     const themeText = Store.currentTheme === 'mocha' ? 'Catppuccin Mocha' : 'Catppuccin Latte';
-    html += `<div class="tui-row ${currentMenuIndex === 0 ? 'active' : ''}">${currentMenuIndex === 0 ? '> ' : '  '}Theme: ${themeText}</div>`;
+    html += `<div class="tui-row ${currentMenuIndex === 0 ? 'active' : ''}" data-index="0">${currentMenuIndex === 0 ? '> ' : '  '}Theme: ${themeText}</div>`;
     
     const crtModes = {'off': 'Off', 'subtle': 'Subtle', 'hard': 'Hard'};
     const crtText = crtModes[Store.crtMode] || 'Subtle';
-    html += `<div class="tui-row ${currentMenuIndex === 1 ? 'active' : ''}">${currentMenuIndex === 1 ? '> ' : '  '}CRT Scanlines: ${crtText}</div>`;
+    html += `<div class="tui-row ${currentMenuIndex === 1 ? 'active' : ''}" data-index="1">${currentMenuIndex === 1 ? '> ' : '  '}CRT Scanlines: ${crtText}</div>`;
     
-    html += `<div class="tui-row ${currentMenuIndex === 2 ? 'active' : ''}">${currentMenuIndex === 2 ? '> ' : '  '}Blinking Cursor: ${Store.cursorBlinkEnabled ? 'On' : 'Off'}</div>`;
+    html += `<div class="tui-row ${currentMenuIndex === 2 ? 'active' : ''}" data-index="2">${currentMenuIndex === 2 ? '> ' : '  '}Blinking Cursor: ${Store.cursorBlinkEnabled ? 'On' : 'Off'}</div>`;
     
     const fontSizes = {'14px': 'Small', '16px': 'Medium', '18px': 'Large'};
     const fontText = fontSizes[Store.currentFontSize] || 'Medium';
-    html += `<div class="tui-row ${currentMenuIndex === 3 ? 'active' : ''}">${currentMenuIndex === 3 ? '> ' : '  '}Font Size: ${fontText}</div>`;
+    html += `<div class="tui-row ${currentMenuIndex === 3 ? 'active' : ''}" data-index="3">${currentMenuIndex === 3 ? '> ' : '  '}Font Size: ${fontText}</div>`;
 
-    html += `<div class="tui-footer" style="margin-top: 1em;">[Up/Down] Navigate  [Enter/Space] Toggle  [Q/Esc] Exit</div>
+    html += `<div class="tui-row ${currentMenuIndex === 4 ? 'active' : ''}" data-index="4">${currentMenuIndex === 4 ? '> ' : '  '}Return</div>`;
+
+    html += `<div class="tui-footer" style="margin-top: 1em;">[↑/↓ or j/k or Tap] Navigate  [Enter/Space/Tap] Toggle  [Q/Esc] Exit</div>
      </div>`;
 
     terminalContentElement.innerHTML = html;
+
+    const container = terminalContentElement.querySelector('.tui-container');
+    if (container) {
+        container.addEventListener('click', (e) => {
+            const row = e.target.closest('.tui-row');
+            if (!row) return;
+            const index = parseInt(row.getAttribute('data-index'), 10);
+            if (!isNaN(index) && index >= 0 && index < settingsOptions.length) {
+                currentMenuIndex = index;
+                toggleSetting(index);
+                if (settingsOptions[index] !== 'return') {
+                    renderMenu();
+                }
+            }
+        });
+    }
 }
 
 export function handleSettingsKeydown(e, exitTuiCallback) {
-    if (e.key === 'ArrowUp') {
+    if (exitTuiCallback) {
+        currentExitCallback = exitTuiCallback;
+    }
+    if (e.key === 'ArrowUp' || e.key === 'k' || e.key === 'K') {
         e.preventDefault();
         currentMenuIndex = (currentMenuIndex - 1 + settingsOptions.length) % settingsOptions.length;
         renderMenu();
-    } else if (e.key === 'ArrowDown') {
+    } else if (e.key === 'ArrowDown' || e.key === 'j' || e.key === 'J') {
         e.preventDefault();
         currentMenuIndex = (currentMenuIndex + 1) % settingsOptions.length;
         renderMenu();
     } else if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
         toggleSetting(currentMenuIndex);
-        renderMenu();
+        if (settingsOptions[currentMenuIndex] !== 'return') {
+            renderMenu();
+        }
     } else if (e.key === 'q' || e.key === 'Q' || e.key === 'Escape') {
         e.preventDefault();
-        exitTuiCallback(savedTerminalHTML);
+        exitSettings();
     }
 }
 
-function toggleSetting(index) {
+export function toggleSetting(index) {
     const opt = settingsOptions[index];
+    if (opt === 'return') {
+        exitSettings();
+        return;
+    }
     if (opt === 'theme') {
         const themes = ['mocha', 'latte'];
         let idx = themes.indexOf(Store.currentTheme);

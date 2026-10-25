@@ -56,13 +56,15 @@ export function initTerminal() {
     terminalInput.addEventListener('focus', () => {
         if (activeCursor) {
             activeCursor.textContent = '█';
+            activeCursor.classList.remove('cursor-empty');
             activeCursor.style.animation = 'cursor-blink 1s step-end infinite';
         }
     });
     
     terminalInput.addEventListener('blur', () => {
         if (activeCursor) {
-            activeCursor.textContent = '□';
+            activeCursor.textContent = '▯';
+            activeCursor.classList.add('cursor-empty');
             activeCursor.style.animation = 'none';
         }
     });

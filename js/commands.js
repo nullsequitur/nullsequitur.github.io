@@ -90,8 +90,17 @@ export const commandRegistry = {
         execute: (args, termContent, outputBlock) => {
             const savedHTML = termContent.innerHTML;
             Store.terminalMode = 'tui';
-            document.getElementById('term-active').style.display = 'none';
-            initSettings(termContent, savedHTML);
+            const termActive = document.getElementById('term-active');
+            if (termActive) termActive.style.display = 'none';
+            initSettings(termContent, savedHTML, (saved) => {
+                termContent.innerHTML = saved;
+                if (termActive) termActive.style.display = 'block';
+                const terminalBody = document.getElementById('term-body');
+                if (terminalBody) terminalBody.scrollTop = terminalBody.scrollHeight;
+                Store.terminalMode = 'command';
+                const terminalInput = document.getElementById('terminal-input');
+                if (terminalInput) setTimeout(() => terminalInput.focus(), 10);
+            });
         }
     },
     whoami: {

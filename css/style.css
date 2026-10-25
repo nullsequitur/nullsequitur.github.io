@@ -273,6 +273,11 @@ body[data-crt="off"]::after {
     color: var(--color-primary);
     animation: cursor-blink 1s step-end infinite;
     margin-left: 2px;
+    line-height: 1;
+}
+
+.cursor.cursor-empty {
+    animation: none !important;
 }
 
 @keyframes cursor-blink {
@@ -385,11 +390,20 @@ body.disable-cursor-blink .cursor {
     padding: 10px;
 }
 .tui-row {
-    padding: 5px 0;
+    padding: 8px 10px;
+    margin: 2px 0;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 4px;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+.tui-row:hover {
+    background-color: var(--color-card-hover);
 }
 .tui-row.active {
     color: var(--color-text-active);
     font-weight: bold;
+    background-color: var(--color-card-bg);
 }
 .tui-header {
     color: var(--ansi-blue);
