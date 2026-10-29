@@ -31,3 +31,7 @@ Thumbs.db
 graphify-out/
 js/graphify-out/
 .ideas/
+
+# Local backlog
+BACKLOG.md
+backlog/

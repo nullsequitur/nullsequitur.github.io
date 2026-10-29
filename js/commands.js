@@ -249,14 +249,19 @@ export const commandRegistry = {
         description: "Show contact information",
         execute: (args, termContent, outputBlock) => {
             if (!siteData?.user) return;
+            const email = escapeHTML(siteData.user.email || '');
             const emailDiv = document.createElement('p');
-            emailDiv.innerHTML = `<span class="key">email:</span> ${escapeHTML(siteData.user.email || '')}`;
+            emailDiv.innerHTML = `<span class="key">email:</span> <a href="mailto:${email}">${email}</a>`;
+            const homepage = escapeHTML(siteData.user.homepage || '');
+            const homepageDiv = document.createElement('p');
+            homepageDiv.innerHTML = `<span class="key">homepage:</span> <a href="${homepage}" target="_blank">${homepage}</a>`;
             const githubDiv = document.createElement('p');
             githubDiv.innerHTML = `<span class="key">github:</span> <a href="${escapeHTML(siteData.user.github || '')}" target="_blank">${escapeHTML(siteData.user.github || '')}</a>`;
             const linkedinDiv = document.createElement('p');
             linkedinDiv.innerHTML = `<span class="key">linkedin:</span> <a href="${escapeHTML(siteData.user.linkedin || '')}" target="_blank">${escapeHTML(siteData.user.linkedin || '')}</a>`;
             
             outputBlock.appendChild(emailDiv);
+            outputBlock.appendChild(homepageDiv);
             outputBlock.appendChild(githubDiv);
             outputBlock.appendChild(linkedinDiv);
         }

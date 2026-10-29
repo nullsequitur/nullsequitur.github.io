@@ -19,7 +19,8 @@ const mockContent = {
             name: 'Lampros Trifyllis',
             role: 'AI Engineer | Systems Developer | Theoretical Physicist',
             focus: 'Agentic Workflows, RAG, Formal Verification',
-            email: 'test@example.com',
+            email: 'info@nullsequitur.com',
+            homepage: 'https://nullsequitur.com',
             github: 'https://github.com/test',
             linkedin: 'https://linkedin.com/in/test'
         },
@@ -156,5 +157,21 @@ describe('Terminal Commands', () => {
         fs.isFile.mockReturnValue(false);
         executeCommand('cat /invalid', termContent);
         expect(termContent.textContent).toContain('cat: /invalid: No such file or directory');
+    });
+
+    test('contact command displays email, homepage, github, and linkedin links', () => {
+        executeCommand('contact', termContent);
+        expect(termContent.textContent).toContain('email: info@nullsequitur.com');
+        expect(termContent.textContent).toContain('homepage: https://nullsequitur.com');
+        expect(termContent.textContent).toContain('github: https://github.com/test');
+        expect(termContent.textContent).toContain('linkedin: https://linkedin.com/in/test');
+
+        const emailLink = termContent.querySelector('a[href="mailto:info@nullsequitur.com"]');
+        expect(emailLink).not.toBeNull();
+        expect(emailLink.textContent).toBe('info@nullsequitur.com');
+
+        const homepageLink = termContent.querySelector('a[href="https://nullsequitur.com"]');
+        expect(homepageLink).not.toBeNull();
+        expect(homepageLink.textContent).toBe('https://nullsequitur.com');
     });
 });
